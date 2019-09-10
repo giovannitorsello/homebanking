@@ -18,9 +18,9 @@ public class EmailProcessorThread extends Thread {
         
         //fake infos please look to EmailSender.java send() function
         sender.setServer("smtp.gmail.com");
-        sender.setUser("giovanni.torsello@gmail.com");
-        sender.setPassword("............");
-        sender.setFrom("giovanni.torsello@gmail.com");
+        sender.setUser("unisalentopps.2018@gmail.com");
+        sender.setPassword("havana2017");
+        sender.setFrom("unisalentopps.2018@gmail.com");
     }
     
     

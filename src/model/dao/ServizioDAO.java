@@ -19,12 +19,13 @@ public class ServizioDAO extends ObjectDAO {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String str_data_attivazione=sdf.format(s.getData_attivazione());
         String str_data_scadenza=sdf.format(s.getData_scadenza());
-        String sql="INSERT INTO servizio (denominazione, data_attivazione, data_scadenza, descrizione, numero_massimo_operazioni, prodotto_id) VALUES ("
+        String sql="INSERT INTO servizio (denominazione, data_attivazione, data_scadenza, descrizione, numero_massimo_operazioni, tipologieOperazioneServizio, prodotto_id) VALUES ("
                 +"'"+s.getDenominazione()+"',"
                 +"'"+str_data_attivazione+"',"
                 +"'"+str_data_scadenza+"',"
                 +"'"+s.getDescrizione()+"',"
                 +"'"+s.getNumero_massimo_operazioni()+"',"
+                 +"'"+s.getTipologieOperazioneServizio()+"',"
                 +"'"+s.getProdotto().getId()+"')";
         return super.insert(sql);
     }
@@ -39,6 +40,7 @@ public class ServizioDAO extends ObjectDAO {
                 "data_attivazione='"+str_data_attivazione+"',"+
                 "data_scadenza='"+str_data_scadenza+"',"+                
                 "numero_massimo_operazioni='"+s.getNumero_massimo_operazioni()+"',"+
+                "tipologieOperazioneServizio='"+s.getTipologieOperazioneServizio()+"',"+
                 "prodotto_id='"+s.getProdotto().getId()+"'"+
                 " WHERE id='"+s.getId()+"'";
         
@@ -70,12 +72,12 @@ public class ServizioDAO extends ObjectDAO {
         
         try {
             s.setId((Integer) rs.getInt("id"));
-            s.setDenominazione((String) rs.getString("denominazione"));
-            s.setDescrizione((String) rs.getString("descrizione"));
-            s.setData_attivazione((Date) rs.getDate("data_attivazione"));
-            s.setData_scadenza((Date) rs.getDate("data_scadenza"));
+            s.setDenominazione(rs.getString("denominazione"));
+            s.setDescrizione(rs.getString("descrizione"));
+            s.setData_attivazione(rs.getDate("data_attivazione"));
+            s.setData_scadenza(rs.getDate("data_scadenza"));
             s.setNumero_massimo_operazioni((Integer) rs.getInt("numero_massimo_operazioni"));
-            
+            s.setTipologieOperazioneServizio(rs.getString("tipologieOperazioneServizio"));
             //Determina il prodotto di appartenenza del servizio
             int prodotto_id = rs.getInt("prodotto_id");
             ProdottoDAO pdao=new ProdottoDAO();
@@ -111,6 +113,10 @@ public class ServizioDAO extends ObjectDAO {
             e.printStackTrace();
         }
         return al;
+    }
+
+    public ArrayList<Servizio> findByCliente() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

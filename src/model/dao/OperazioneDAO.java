@@ -6,7 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import model.entities.Utente;
+import model.entities.Filiale;
+import model.entities.Servizio;
+import model.entities.ServizioCliente;
 
 public class OperazioneDAO extends ObjectDAO {
 
@@ -15,16 +19,17 @@ public class OperazioneDAO extends ObjectDAO {
         String str_data=sdf.format(op.getData());
         String str_data_conferma_cassiere=sdf.format(op.getData_conferma_cassiere());
         
-        String sql="INSERT INTO operazione (data, hash, importo, tipologia, stato, data_conferma_cassiere, cliente_id, filiale_id, cassiere_id) VALUES ('"
-                +str_data+"', '"
-                +op.getHash()+"', '"
-                +op.getImporto()+"', '"
-                +op.getTipologia()+"', '"
-                +op.getStato()+"', '"
-                +str_data_conferma_cassiere+"', '"
-                +op.getCliente().getId()+"', '"
-                +op.getFiliale().getId()+"', '"
-                +op.getCassiere().getId()+")";
+        String sql="INSERT INTO operazione (data, hash, importo, tipologia, stato, data_conferma_cassiere, servizio_id, cliente_id, filiale_id, cassiere_id) VALUES ("+
+                "'"+str_data+"',"+
+                "'"+op.getHash()+"',"+
+                "'"+op.getImporto()+"',"+
+                "'"+op.getTipologia()+"',"+
+                "'"+op.getStato()+"',"+
+                "'"+str_data_conferma_cassiere+"',"+
+                "'"+op.getServizioCliente().getId()+"',"+
+                "'"+op.getCliente().getId()+"',"+
+                "'"+op.getFiliale().getId()+"',"+
+                "'"+op.getCassiere().getId()+"')";
         return super.insert(sql);
     }
     
@@ -33,23 +38,24 @@ public class OperazioneDAO extends ObjectDAO {
         String str_data=sdf.format(op.getData());
         String str_data_conferma_cassiere=sdf.format(op.getData_conferma_cassiere());
         
-        String sql="UPDATE servizio SET "+
+        String sql="UPDATE operazione SET "+
                 "data='"+str_data+"',"+
                 "hash='"+op.getHash()+"',"+
                 "importo='"+op.getImporto()+"',"+                
                 "tipologia='"+op.getTipologia()+"',"+
                 "stato='"+op.getStato()+"',"+
                 "data_conferma_cassiere='"+str_data_conferma_cassiere+"',"+
+                "servizio_id='"+op.getServizioCliente().getId()+"',"+
                 "cliente_id='"+op.getCliente().getId()+"',"+
+                "filiale_id='"+op.getFiliale().getId()+"',"+
                 "cassiere_id='"+op.getCassiere().getId()+"'"+                
                 " WHERE id='"+op.getId()+"'";
         
         return super.update(sql);
     }
 
-    public boolean delete(Operazione op){
-        String sql="DELETE FROM operazione WHERE id="+op.getId();
-        return super.delete(sql, op.getId());
+    public boolean delete(Operazione op){        
+        return super.delete("operazione", op.getId());
     }
     
     public Operazione findById(int id) {
@@ -63,6 +69,26 @@ public class OperazioneDAO extends ObjectDAO {
         return op;
     }
    
+    public ArrayList<Operazione> findByClienteServizioStatoTipologiaPeriodo(Utente cli, ServizioCliente sercli, String tip, String sta, Date dtStart, Date dtEnd) {
+        ArrayList<Operazione> al=new ArrayList<Operazione>();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        
+        String sql="SELECT * FROM operazione WHERE (";
+        if(cli!=null && cli.getId()!=-1) sql+="cliente_id='"+cli.getId()+"'";
+        if(sercli!=null && sercli.getId()!=-1) sql+=" AND servizio_id='"+sercli.getId()+"'";
+        if(sta!=null)                    sql+=" AND stato='"+sta+"'";
+        if(tip!=null)                    sql+=" AND tipologia='"+tip+"'";
+        if(dtStart!=null && dtEnd!=null)   {
+            String strDateStart=sdf.format(dtStart);
+            String strDateEnd=sdf.format(dtEnd);
+            sql+=" AND (data >='"+strDateStart+"' AND  data<='"+strDateEnd+"')";
+        }
+        sql+=");";
+        
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
+    
     public ArrayList<Operazione> findByCliente(Utente cliente) {
         ArrayList<Operazione> al=new ArrayList<Operazione>();
         String sql="SELECT * FROM operazione WHERE (cliente_id='"+cliente.getId()+"');";
@@ -92,7 +118,7 @@ public class OperazioneDAO extends ObjectDAO {
     }
 
     public ArrayList<Operazione> findAll() {
-        ResultSet rs = super.findAll("prodotto");
+        ResultSet rs = super.findAll("operazione");
         ArrayList<Operazione> listaOperazioni = getArrayListFromResultSet(rs);        
         return listaOperazioni;
     }
@@ -105,8 +131,13 @@ public class OperazioneDAO extends ObjectDAO {
                 op.setHash(rs.getString("hash"));
                 op.setImporto(rs.getFloat("importo"));
                 op.setTipologia(rs.getString("tipologia"));
-                op.setStato(rs.getString("Stato"));
+                op.setStato(rs.getString("stato"));
                 op.setData_conferma_cassiere(rs.getDate("data_conferma_cassiere"));
+                
+                //determina il servizio cliente
+                ServizioClienteDAO scdao=new ServizioClienteDAO();
+                ServizioCliente sc=scdao.findById(rs.getInt("servizio_id"));
+                op.setServizioCliente(sc);
                 
                 //determina il cliente
                 UtenteDAO udao=new UtenteDAO();
@@ -115,7 +146,12 @@ public class OperazioneDAO extends ObjectDAO {
                 
                 //determina il cassiere
                 Utente cassiere=udao.findById(rs.getInt("cassiere_id"));
-                op.setCliente(cassiere);
+                op.setCassiere(cassiere);
+                
+                //determina la filiale
+                FilialeDAO fdao=new FilialeDAO();
+                Filiale filiale=fdao.findById(rs.getInt("filiale_id"));
+                op.setFiliale(filiale);
                                     
         } catch (SQLException e) {
             e.printStackTrace();

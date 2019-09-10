@@ -1,31 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="536.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneOperazioniCassiere">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="676.0" prefWidth="536.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneOperazioniCassiere">
    <children>
-      <Label layoutX="7.0" prefHeight="40.0" prefWidth="311.0" text="Gestione operazioni">
+      <Label layoutX="7.0" prefHeight="40.0" prefWidth="476.0" text="Gestione operazioni - area cassiere">
          <font>
             <Font name="System Italic" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="btnDelete" disable="true" layoutX="272.0" layoutY="40.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="25.0" prefWidth="105.0" text="Elimina" />
-      <Button fx:id="btnComfirm" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" onAction="#btnConfirm" prefHeight="25.0" prefWidth="105.0" text="Conferma" />
-      <TableView fx:id="tblOperazioni" layoutX="10.0" layoutY="77.0" prefHeight="290.0" prefWidth="523.0">
+      <Button fx:id="btnDelete" layoutX="182.0" layoutY="261.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="78.0" text="Elimina" />
+      <Button fx:id="btnConfirm" layoutX="11.0" layoutY="261.0" mnemonicParsing="false" onAction="#confirm" prefHeight="25.0" prefWidth="88.0" text="Conferma" />
+      <TableView fx:id="tblOperazioni" layoutX="7.0" layoutY="296.0" prefHeight="342.0" prefWidth="523.0">
          <columns>
-            <TableColumn prefWidth="153.0" text="descrizione" />
-            <TableColumn prefWidth="99.0" text="importo" />
-            <TableColumn prefWidth="125.0" text="data valuta" />
-            <TableColumn prefWidth="145.0" text="stato" />
+            <TableColumn prefWidth="153.0" text="tipologia">
+                <cellValueFactory><PropertyValueFactory property="tipologia" /></cellValueFactory>
+          </TableColumn>
+            <TableColumn prefWidth="99.0" text="importo">
+                <cellValueFactory><PropertyValueFactory property="importo" /></cellValueFactory>
+          </TableColumn>
+            <TableColumn prefWidth="125.0" text="data valuta">
+                <cellValueFactory><PropertyValueFactory property="data" /></cellValueFactory>
+          </TableColumn>
+            <TableColumn prefWidth="145.0" text="stato">
+                <cellValueFactory><PropertyValueFactory property="stato" /></cellValueFactory>
+          </TableColumn>
          </columns>
       </TableView>
-      <Label fx:id="txtUtente" layoutX="14.0" layoutY="386.0" text="Cassiere" />
-      <Label fx:id="txtBanca" layoutX="231.0" layoutY="386.0" text="Banca" />
-      <Label fx:id="txtFiliale" layoutX="422.0" layoutY="386.0" text="Filiale" />
-      <Button fx:id="btnCancel" layoutX="147.0" layoutY="40.0" mnemonicParsing="false" onAction="#btnCancel" prefHeight="25.0" prefWidth="105.0" text="Annulla" />
+      <Label fx:id="lblCassiere" layoutX="11.0" layoutY="647.0" text="Cassiere" />
+      <Label fx:id="lblBanca" layoutX="228.0" layoutY="647.0" text="Banca" />
+      <Label fx:id="lblFiliale" layoutX="419.0" layoutY="647.0" text="Filiale" />
+      <Button fx:id="btnCancel" layoutX="101.0" layoutY="261.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="78.0" text="Annulla" />
+      <Label layoutX="11.0" layoutY="55.0" text="cliente" />
+      <ComboBox fx:id="cmbCliente" layoutX="116.0" layoutY="50.0" onAction="#changeCmbCliente" prefHeight="25.0" prefWidth="378.0" />
+      <ComboBox fx:id="cmbServizioCliente" disable="true" layoutX="116.0" layoutY="79.0" onAction="#changeCmbServizioCliente" prefHeight="25.0" prefWidth="378.0" />
+      <Label layoutX="11.0" layoutY="84.0" text="Servizio" />
+      <Label layoutX="11.0" layoutY="113.0" text="Tipologia" />
+      <ComboBox fx:id="cmbTipologiaOperazioneServizio" disable="true" layoutX="116.0" layoutY="108.0" onAction="#changeCmbTipologiaOperazioniServizio" prefHeight="25.0" prefWidth="378.0" />
+      <ComboBox fx:id="cmbStato" disable="true" layoutX="116.0" layoutY="136.0" onAction="#changeCmbStato" prefHeight="25.0" prefWidth="378.0" />
+      <Label layoutX="11.0" layoutY="141.0" text="Stato" />
+      <Label layoutX="11.0" layoutY="169.0" text="Periodo" />
+      <ComboBox fx:id="cmbPeriodo" layoutX="116.0" layoutY="164.0" onAction="#changeCmbPeriodo" prefHeight="25.0" prefWidth="378.0" />
+      <Label layoutX="116.0" layoutY="202.0" text="Da" />
+      <DatePicker fx:id="dtStart" layoutX="148.0" layoutY="197.0" onAction="#dtStartChange" prefHeight="25.0" prefWidth="150.0" />
+      <Label layoutX="313.0" layoutY="202.0" text="a" />
+      <DatePicker fx:id="dtEnd" layoutX="338.0" layoutY="197.0" prefHeight="25.0" prefWidth="156.0" />
+      <Button fx:id="btnFindUpdate" layoutX="394.0" layoutY="261.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="130.0" text="Aggiorna ricerca" />
+      <Button fx:id="btnPrint" layoutX="263.0" layoutY="261.0" mnemonicParsing="false" onAction="#print" prefHeight="25.0" prefWidth="130.0" text="Stampa in pdf" />
    </children>
 </AnchorPane>

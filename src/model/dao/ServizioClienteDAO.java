@@ -9,23 +9,26 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entities.Servizio;
+import model.entities.Utente;
 
 public class ServizioClienteDAO extends ObjectDAO {
 
     public boolean insert(ServizioCliente sc) {
 
 
-        String sql="INSERT INTO utente (saldo, stato, servizio_id) VALUES ("+
+        String sql="INSERT INTO servizioCliente (saldo, stato, cliente_id, servizio_id) VALUES ("+
                 "'"+sc.getSaldo()+"',"+
                 "'"+sc.getStato()+"',"+
+                "'"+sc.getCliente().getId()+"',"+
                 "'"+sc.getServizio().getId()+"')";
         return super.insert(sql);
     }
     
     public boolean update(ServizioCliente sc) {
-        String sql="UPDATE servizio SET "+
+        String sql="UPDATE servizioCliente SET "+
                 "saldo='"+sc.getSaldo()+"',"+
                 "stato='"+sc.getStato()+"',"+
+                "cliente_id='"+sc.getCliente().getId()+"',"+
                 "servizio_id='"+sc.getServizio().getId()+"'"+
                 " WHERE id='"+sc.getId()+"'";
         
@@ -34,7 +37,7 @@ public class ServizioClienteDAO extends ObjectDAO {
 
     public ServizioCliente findById(int id) {
         ServizioCliente u=new ServizioCliente();
-        ResultSet rs =super.findById("servizio_cliente", id);
+        ResultSet rs =super.findById("servizioCliente", id);
         try {
             if(rs.next())
                 u=setServizioClienteFromResultSet(rs);
@@ -47,7 +50,6 @@ public class ServizioClienteDAO extends ObjectDAO {
     private ServizioCliente setServizioClienteFromResultSet(ResultSet rs) {        
         ServizioCliente sc=new ServizioCliente();
         try {
-            if(rs.next()){
                 sc.setId(rs.getInt("id"));
                 sc.setSaldo(rs.getFloat("saldo"));
                 sc.setStato(rs.getString("stato"));
@@ -56,9 +58,13 @@ public class ServizioClienteDAO extends ObjectDAO {
                 int servizio_id=rs.getInt("servizio_id");
                 ServizioDAO sdao=new ServizioDAO();
                 Servizio srv=sdao.findById(servizio_id);
-                
                 sc.setServizio(srv);
-            }
+                
+                //individua il servizio di riferimento
+                int cliente_id=rs.getInt("cliente_id");
+                UtenteDAO cdao=new UtenteDAO();
+                Utente cli=cdao.findById(servizio_id);
+                sc.setCliente(cli);
         } catch (SQLException ex) {
             Logger.getLogger(ServizioClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,5 +96,11 @@ public class ServizioClienteDAO extends ObjectDAO {
             e.printStackTrace();
         }
         return al;
+    }
+
+    public ArrayList<ServizioCliente> findByCliente(Utente cliente) {
+        String sql="SELECT * FROM servizioCliente WHERE cliente_id="+cliente.getId();
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
     }
 }

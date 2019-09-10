@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="882.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneAnagraficaUtenti">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="737.0" prefWidth="882.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneAnagraficaUtenti">
    <children>
       <Label layoutX="17.0" prefHeight="40.0" prefWidth="609.0" text="Gestione anagrafica utenti">
          <font>
@@ -18,14 +18,14 @@
       <TextField fx:id="txtNome" layoutX="188.0" layoutY="42.0" prefHeight="25.0" prefWidth="187.0" />
       <TextField fx:id="txtCognome" layoutX="188.0" layoutY="68.0" prefHeight="25.0" prefWidth="187.0" />
       <TextField fx:id="txtCodiceFiscale" layoutX="188.0" layoutY="94.0" prefHeight="25.0" prefWidth="187.0" />
-      <TextField fx:id="txtIndirizzo" layoutX="188.0" layoutY="120.0" prefHeight="25.0" prefWidth="187.0" />
+      <TextField fx:id="txtIndirizzo" layoutX="188.0" layoutY="151.0" prefHeight="25.0" prefWidth="187.0" />
       <Label layoutX="35.0" layoutY="41.0" prefHeight="25.0" prefWidth="128.0" text="nome:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtEmail" layoutX="188.0" layoutY="146.0" prefHeight="25.0" prefWidth="187.0" />
-      <Button fx:id="btnFind" layoutX="302.0" layoutY="289.0" mnemonicParsing="false" onAction="#findUtente" prefHeight="25.0" prefWidth="78.0" text="Cerca" />
+      <TextField fx:id="txtEmail" layoutX="188.0" layoutY="177.0" prefHeight="25.0" prefWidth="187.0" />
+      <Button fx:id="btnFind" layoutX="286.0" layoutY="389.0" mnemonicParsing="false" onAction="#findUtente" prefHeight="27.0" prefWidth="84.0" text="Cerca" />
       <Label layoutX="34.0" layoutY="69.0" prefHeight="25.0" prefWidth="128.0" text="cognome:">
          <font>
             <Font size="14.0" />
@@ -36,36 +36,36 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="34.0" layoutY="123.0" prefHeight="25.0" prefWidth="128.0" text="indirizzo:">
+      <Label layoutX="34.0" layoutY="154.0" prefHeight="25.0" prefWidth="128.0" text="indirizzo:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="35.0" layoutY="150.0" prefHeight="25.0" prefWidth="142.0" text="email:">
+      <Label layoutX="35.0" layoutY="181.0" prefHeight="25.0" prefWidth="142.0" text="email:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="34.0" layoutY="177.0" prefHeight="25.0" prefWidth="128.0" text="data nascita:">
+      <Label layoutX="34.0" layoutY="208.0" prefHeight="25.0" prefWidth="128.0" text="data nascita:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="34.0" layoutY="204.0" prefHeight="25.0" prefWidth="128.0" text="username:">
+      <Label layoutX="34.0" layoutY="235.0" prefHeight="25.0" prefWidth="128.0" text="username:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="35.0" layoutY="231.0" prefHeight="25.0" prefWidth="128.0" text="password:">
+      <Label layoutX="35.0" layoutY="261.0" prefHeight="25.0" prefWidth="128.0" text="password:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnInsert" layoutX="28.0" layoutY="289.0" mnemonicParsing="false" onAction="#insertUtente" prefHeight="25.0" prefWidth="89.0" text="Inserisci" />
-      <TextField fx:id="txtUsername" layoutX="188.0" layoutY="201.0" prefHeight="25.0" prefWidth="187.0" />
-      <PasswordField fx:id="txtPassword" layoutX="188.0" layoutY="228.0" prefHeight="25.0" prefWidth="187.0" />
-      <DatePicker fx:id="dtDataNascita" layoutX="188.0" layoutY="172.0" prefHeight="27.0" prefWidth="187.0" />
-      <TableView fx:id="tblUtenti" layoutX="17.0" layoutY="347.0" prefHeight="247.0" prefWidth="854.0">
+      <Button fx:id="btnInsert" layoutX="18.0" layoutY="389.0" mnemonicParsing="false" onAction="#insertUtente" prefHeight="27.0" prefWidth="71.0" text="Inserisci" />
+      <TextField fx:id="txtUsername" layoutX="188.0" layoutY="232.0" prefHeight="25.0" prefWidth="187.0" />
+      <PasswordField fx:id="txtPassword" layoutX="188.0" layoutY="259.0" prefHeight="25.0" prefWidth="187.0" />
+      <DatePicker fx:id="dtDataNascita" layoutX="188.0" layoutY="203.0" prefHeight="27.0" prefWidth="187.0" />
+      <TableView fx:id="tblUtenti" layoutX="14.0" layoutY="422.0" prefHeight="286.0" prefWidth="854.0">
         <columns>
           <TableColumn prefWidth="75.0" text="Nome">
              <cellValueFactory><PropertyValueFactory property="nome" /></cellValueFactory>
@@ -87,7 +87,7 @@
           </TableColumn>
         </columns>
       </TableView>
-      <TableView layoutX="388.0" layoutY="70.0" prefHeight="207.0" prefWidth="473.0">
+      <TableView layoutX="388.0" layoutY="70.0" prefHeight="299.0" prefWidth="473.0">
         <columns>
           <TableColumn prefWidth="152.0" text="Denominazione">
               <cellValueFactory><PropertyValueFactory property="denominazione" /></cellValueFactory>
@@ -103,17 +103,36 @@
             </TableColumn>
         </columns>
       </TableView>
-      <ComboBox fx:id="cmbRuolo" layoutX="188.0" layoutY="255.0" prefHeight="25.0" prefWidth="187.0" />
-      <Label layoutX="34.0" layoutY="255.0" prefHeight="25.0" prefWidth="128.0" text="ruolo">
+      <ComboBox fx:id="cmbRuolo" layoutX="188.0" layoutY="286.0" prefHeight="25.0" prefWidth="187.0" />
+      <Label layoutX="35.0" layoutY="288.0" prefHeight="25.0" prefWidth="128.0" text="ruolo">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnConfirmCliente" layoutX="388.0" layoutY="289.0" mnemonicParsing="false" onAction="#confermaCliente" prefHeight="25.0" prefWidth="473.0" text="Conferma registrazione" />
+      <Button fx:id="btnConfirmCliente" layoutX="395.0" layoutY="390.0" mnemonicParsing="false" onAction="#confermaCliente" prefHeight="25.0" prefWidth="473.0" text="Conferma registrazione cliente" />
       <Label layoutX="404.0" layoutY="47.0" text="Prodotti richiesti dal cliente" />
       <Label fx:id="lblUtente" layoutX="662.0" layoutY="13.0" text="Utente" />
-      <Label fx:id="lblBanca" layoutX="17.0" layoutY="602.0" text="Banca" />
-      <Label fx:id="lblFiliale" layoutX="322.0" layoutY="602.0" text="Filiale" />
-      <Button fx:id="btnUpdate" layoutX="188.0" layoutY="289.0" mnemonicParsing="false" onAction="#updateUtente" prefHeight="25.0" prefWidth="89.0" text="Aggiorna" />
+      <Label fx:id="lblBanca" layoutX="20.0" layoutY="711.0" text="Banca" />
+      <Label fx:id="lblFiliale" layoutX="325.0" layoutY="711.0" text="Filiale" />
+      <Button fx:id="btnUpdate" layoutX="178.0" layoutY="389.0" mnemonicParsing="false" onAction="#updateUtente" prefHeight="27.0" prefWidth="98.0" text="Aggiorna" />
+      <Button fx:id="btnDelete" layoutX="96.0" layoutY="389.0" mnemonicParsing="false" onAction="#deleteUtente" prefHeight="27.0" prefWidth="71.0" text="Elimina" />
+      <Label layoutX="35.0" layoutY="317.0" prefHeight="25.0" prefWidth="128.0" text="Pec">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="txtPec" layoutX="189.0" layoutY="316.0" prefHeight="25.0" prefWidth="187.0" />
+      <PasswordField fx:id="txtCodiceUnivoco" layoutX="190.0" layoutY="344.0" prefHeight="25.0" prefWidth="187.0" />
+      <Label layoutX="36.0" layoutY="345.0" prefHeight="25.0" prefWidth="128.0" text="Codice univoco">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="124.0" prefHeight="25.0" prefWidth="128.0" text="partita iva">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPartitaIva" layoutX="188.0" layoutY="122.0" prefHeight="25.0" prefWidth="187.0" />
    </children>
 </AnchorPane>

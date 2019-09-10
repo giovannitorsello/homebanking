@@ -76,7 +76,7 @@ public class EmailSender {
          mp.addBodyPart(mbp); 
          msg.setContent(mp);
       }      
-      msg.setHeader("X-Mailer", "Sistema di comunicazrione Wifinetcom");
+      msg.setHeader("X-Mailer", "Sistema di comunicazione Homebanking");
       msg.setSentDate(new Date());
       
       Transport.send(msg);

@@ -61,7 +61,9 @@ public class UtenteDAO extends ObjectDAO {
         
         return super.update(sql);
     }
-
+    public boolean delete(Utente u) {
+        return super.delete("utente", u.getId());
+    }
 
     public Utente findById(int id) {
         Utente u=new Utente();

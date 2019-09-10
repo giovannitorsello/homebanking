@@ -11,6 +11,7 @@ public class Operazione {
     private String tipologia="non_valida";
     private String stato="non_confermato"; //confermato, annullato
     private Date data_conferma_cassiere=new Date();
+    private ServizioCliente servizioCliente;    
     private Utente cliente;
     private Utente cassiere;
     private Filiale filiale;
@@ -121,5 +122,19 @@ public class Operazione {
      */
     public void setData_conferma_cassiere(Date data_conferma_cassiere) {
         this.data_conferma_cassiere = data_conferma_cassiere;
+    }
+
+    /**
+     * @return the servizioCliente
+     */
+    public ServizioCliente getServizioCliente() {
+        return servizioCliente;
+    }
+
+    /**
+     * @param servizioCliente the servizioCliente to set
+     */
+    public void setServizioCliente(ServizioCliente servizioCliente) {
+        this.servizioCliente = servizioCliente;
     }
 }

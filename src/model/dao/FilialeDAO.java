@@ -78,10 +78,9 @@ public class FilialeDAO extends ObjectDAO {
             f.setOrarioApertura(rs.getString("orario_apertura"));
             f.setOrarioChiusura(rs.getString("orario_chiusura"));
             //Popolai membri della gerarchia
-            int banca_id= 0;
             
                 //Trova la banca di appartenenza della filiale
-                banca_id = rs.getInt("banca_id");
+                int banca_id = rs.getInt("banca_id");
                 BancaDAO bdao=new BancaDAO();
                 Banca banca=bdao.findById(banca_id);
                 f.setBanca(banca);

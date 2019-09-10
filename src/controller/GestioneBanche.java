@@ -147,10 +147,12 @@ public class GestioneBanche {
         //Loading image from URL
         try {
             selectedBanca=Session.getInstance().getSelectedBanca();
+            if(selectedBanca==null) return;
             if(selectedBanca.getId()==-1) return;
             GalleryDAO gdao=new GalleryDAO();
             fotoBanca=gdao.findByBanca(selectedBanca);  
-            Gallery g=fotoBanca.get(0);            
+            Gallery g=new Gallery(); 
+            if(fotoBanca.size()>0)g=fotoBanca.get(0); 
             imgBanca.setImage(new Image(g.getImage()));
         }
         catch(Exception e) {e.printStackTrace();}

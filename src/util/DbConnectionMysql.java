@@ -37,7 +37,7 @@ public class DbConnectionMysql {
     private static boolean connect(String dbname, String username, String password) {
 
         try {
-            String url="jdbc:mysql://localhost:3306/"+dbname+"?user="+username+"&password="+password+"&useLegacyDatetimeCode=false&serverTimezone=Europe/Rome";
+            String url="jdbc:mysql://localhost:3306/"+dbname+"?user="+username+"&password="+password+"&useLegacyDatetimeCode=false&serverTimezone=UTC";
             Class.forName("com.mysql.cj.jdbc.Driver");
             db = DriverManager.getConnection(url);
             return db.isValid(1000);            

@@ -76,12 +76,12 @@ public class GestioneProdotti {
     @FXML
     private void initialize()
     {
-        initProdottoTable();
-        refreshTable();
-        
         lblUtente.setText(Session.getInstance().getAppUtente().getUsername());
         lblBanca.setText(Session.getInstance().getSelectedBanca().getNome());
         lblFiliale.setText(Session.getInstance().getSelectedFiliale().getNome());
+        
+        initProdottoTable();
+        
     }
 
     private void initProdottoTable() {

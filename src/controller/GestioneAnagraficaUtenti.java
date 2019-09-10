@@ -27,6 +27,7 @@ import javafx.scene.control.TablePosition;
 import javafx.util.Callback;
 import model.entities.Banca;
 import model.entities.Filiale;
+import util.MD5;
 
 public class GestioneAnagraficaUtenti {
 
@@ -66,9 +67,21 @@ public class GestioneAnagraficaUtenti {
 
     @FXML
     private Button btnFind;
+    
+    @FXML
+    private Button btnDelete;
 
     @FXML
     private ComboBox cmbRuolo;
+    
+    @FXML
+    private TextField txtPartitaIva;
+    
+    @FXML
+    private TextField txtCodiceUnivoco;
+    
+    @FXML
+    private TextField txtPec;
     
     @FXML
     private TableView tblUtenti;
@@ -92,13 +105,13 @@ public class GestioneAnagraficaUtenti {
     {
         initCmbRuolo();
         initUtentiTable();
-        if(cliente.getId()!=-1)  //se il cliente è valido
-        {
-            lblBanca.setText(cliente.getFiliale().getBanca().getNome());
-            lblFiliale.setText(cliente.getFiliale().getNome());            
-            Session.getInstance().setSelectedBanca(selectedBanca);
-        }
         
+        selectedFiliale=Session.getInstance().getSelectedFiliale();
+        if(selectedFiliale!=null) lblFiliale.setText(selectedFiliale.getNome());            
+            
+        selectedBanca=selectedFiliale.getBanca();
+        if(selectedBanca!=null) lblBanca.setText(cliente.getFiliale().getBanca().getNome());
+            
         if(direttore.getId()!=-1)
             lblUtente.setText(direttore.getNome() +" "+direttore.getCognome());
     }
@@ -114,11 +127,10 @@ public class GestioneAnagraficaUtenti {
                         int row = pos.getRow();
                         int column = pos.getColumn();
                         if(row>=0 && row < tblData.size()) {
-                            cliente = (Utente) tblUtenti.getItems().get(row);
-                            Session.getInstance().setSelectedUtente(cliente);
+                            cliente = (Utente) tblUtenti.getItems().get(row); 
+                            Session.getInstance().setSelectedCliente(cliente);
                             refreshFields();
                         }
-                        //label.setText(selectedValue);
                     }
                 });
         refreshTable();
@@ -177,6 +189,18 @@ public class GestioneAnagraficaUtenti {
 
 
     }
+    
+    public void deleteUtente(ActionEvent actionEvent) {
+        //Che sia cliente
+        //Che non abbia operazioni --- Richiesta cancellazione storico operazioni, servizi, prodotti, anagrafica
+        
+        boolean b_delete=utenteDAO.delete(cliente);
+        if(b_delete==true)
+            Session.getInstance().openInfoDialog("Cancellazione", "Cancellazione corretta", "Cancellazione avvenuta correttamente");
+        else
+            Session.getInstance().openErrorDialog("Errore", "Errore cancellazione", "Errore di cancellazione");
+        refreshTable();
+    }
 
     public void insertUtente(ActionEvent actionEvent) {
         Utente u=utenteFromForm();
@@ -202,6 +226,7 @@ public class GestioneAnagraficaUtenti {
             Session.getInstance().openInfoDialog("Operazione conclusa", 
                                                          "Cliente registrato", 
                                                          "Cliente registrato e servizio attivato");
+            refreshTable();
         }        
     }
     
@@ -216,11 +241,12 @@ public class GestioneAnagraficaUtenti {
         u.setData_registrazione(new Date());
         u.setEmail(txtEmail.getText());
         u.setUsername(txtUsername.getText());
-        u.setPassword(txtPassword.getText());
-        u.setPartitaiva("000");
-        u.setPec("llll");
-        u.setCodice_univoco("oooo");
-        u.setRuolo("Cliente");
+        u.setPassword(MD5.getStringHash(txtPassword.getText()));
+        u.setPartitaiva(txtPartitaIva.getText());
+        u.setPec(txtPec.getText());
+        u.setCodice_univoco(txtCodiceUnivoco.getText());
+        u.setRuolo(cmbRuolo.getValue().toString());
+        u.setFiliale(selectedFiliale);
         return u;
     }
 }

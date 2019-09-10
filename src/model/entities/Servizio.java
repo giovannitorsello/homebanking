@@ -9,6 +9,7 @@ public class Servizio {
     private Date data_attivazione=new Date();
     private Date data_scadenza=new Date();
     private String descrizione="";
+    private String tipologieOperazioneServizio="";
     private int numero_massimo_operazioni=10;
     private Prodotto prodotto=new Prodotto();
 
@@ -72,5 +73,19 @@ public class Servizio {
 
     public void setProdotto(Prodotto prodotto) {
         this.prodotto = prodotto;
+    }
+
+    /**
+     * @return the tipologieOperazioneServizio
+     */
+    public String getTipologieOperazioneServizio() {
+        return tipologieOperazioneServizio;
+    }
+
+    /**
+     * @param tipologieOperazioneServizio the tipologieOperazioneServizio to set
+     */
+    public void setTipologieOperazioneServizio(String tipologieOperazioneServizio) {
+        this.tipologieOperazioneServizio = tipologieOperazioneServizio;
     }
 }

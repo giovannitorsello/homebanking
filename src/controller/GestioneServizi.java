@@ -38,6 +38,9 @@ public class GestioneServizi {
 
     @FXML
     private TextField txtNumeroMassimoOperazioni;
+    
+    @FXML
+    private TextField txtTipologieOperazioneServizio;
 
     @FXML
     private Button btnFind;
@@ -107,7 +110,7 @@ public class GestioneServizi {
         dtScadenza.setValue(TimeUtil.convertDateToLocalDate(selectedServizio.getData_scadenza()));
         txtDescrizione.setText(selectedServizio.getDescrizione());
         txtNumeroMassimoOperazioni.setText(Integer.valueOf(selectedServizio.getNumero_massimo_operazioni()).toString());
-        
+        txtTipologieOperazioneServizio.setText(selectedServizio.getTipologieOperazioneServizio());
          if(selectedServizio!=null) btnDelete.setDisable(false);
 
     }
@@ -120,6 +123,7 @@ public class GestioneServizi {
         s.setDescrizione(txtDescrizione.getText());
         s.setNumero_massimo_operazioni(Integer.valueOf(txtNumeroMassimoOperazioni.getText()).intValue());
         s.setProdotto(Session.getInstance().getSelectedProdotto());
+        s.setTipologieOperazioneServizio(txtTipologieOperazioneServizio.getText());
         servizioDAO.insert(s);
         refreshTable();
     }

@@ -105,9 +105,9 @@ public class GestioneFiliali {
             if(selectedFiliale.getId()==-1) return;
             GalleryDAO gdao=new GalleryDAO();
             fotoFiliale=gdao.findByFiliale(selectedFiliale);        
-            Gallery g=fotoFiliale.get(0);           
-            InputStream fis=g.getImage();            
-            imgFiliale.setImage(new Image(fis));
+            Gallery g=new Gallery(); 
+            if(fotoFiliale.size()>0)g=fotoFiliale.get(0); 
+            imgFiliale.setImage(new Image(g.getImage()));
         }
         catch(Exception e) {e.printStackTrace();}
     }

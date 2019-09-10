@@ -94,8 +94,15 @@ public class Login {
 
             if(selectedUtente.getRuolo().equals("Amministratore"))  Session.getInstance().openAsAmministratore();
             if(selectedUtente.getRuolo().equals("Direttore"))       Session.getInstance().openAsDirettore();
-            if(selectedUtente.getRuolo().equals("Cassiere"))        Session.getInstance().openAsCassiere();
-            if(selectedUtente.getRuolo().equals("Cliente"))         Session.getInstance().openAsCliente();
+            if(selectedUtente.getRuolo().equals("Cassiere"))  {
+                Session.getInstance().setSelectedBanca(selectedUtente.getFiliale().getBanca());                
+                Session.getInstance().setSelectedFiliale(selectedUtente.getFiliale());
+                Session.getInstance().openAsCassiere();
+            }
+            if(selectedUtente.getRuolo().equals("Cliente")){         
+                Session.getInstance().setSelectedCliente(selectedUtente);
+                Session.getInstance().openAsCliente();
+            }
             if(selectedUtente.getRuolo().equals(""))                return;
 
         }

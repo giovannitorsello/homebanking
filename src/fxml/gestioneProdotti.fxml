@@ -3,7 +3,7 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>

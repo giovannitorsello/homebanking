@@ -98,64 +98,73 @@ public class RegistrazioneUtente {
     }
 
     public void insert(ActionEvent actionEvent) {
-        Utente u=new Utente();
-        u.setNome(txtNome.getText());
-        u.setCognome(txtCognome.getText());
-        u.setIndirizzo(txtIndirizzo.getText());
-        u.setCodice_fiscale(txtCodiceFiscale.getText());
-        u.setEmail(txtEmail.getText());
-        u.setData_nascita(TimeUtil.convertLocalDateToDate(dtDataNascita.getValue()));
-        u.setFiliale(selectedFiliale);
+        Utente cliente=new Utente();
+        cliente.setNome(txtNome.getText());
+        cliente.setCognome(txtCognome.getText());
+        cliente.setIndirizzo(txtIndirizzo.getText());
+        cliente.setCodice_fiscale(txtCodiceFiscale.getText());
+        cliente.setEmail(txtEmail.getText());
+        cliente.setData_nascita(TimeUtil.convertLocalDateToDate(dtDataNascita.getValue()));
+        cliente.setFiliale(selectedFiliale);
         
         //credenziali
-        u.setUsername(txtEmail.getText());  //per default email e login coincidono        
-        u.setPassword(PasswordGenerator.GeneraPassCasuale(12));        
+        cliente.setUsername(txtEmail.getText());  //per default email e login coincidono    
+        String clearPass=PasswordGenerator.GeneraPassCasuale(12);
+        cliente.setPassword(MD5.getStringHash(clearPass));        
+        cliente.setPassword(MD5.getStringHash("cliente"));        
         
         
         //impostazione predefinita "Non_registrato"
         //l'amministratore modifichera il parametro a Cliente, Direttore o Amministratore
         // durante il processo di conferma
-        u.setRuolo("Non_registrato");
+        cliente.setRuolo("Non_registrato");
         
-        utenteDAO.insert(u);        
+        utenteDAO.insert(cliente); 
+        cliente=utenteDAO.findUsername(cliente.getUsername());
         
-        //selectedServizioCliente.se
+        //Inserimento servizi in stato non registrato
+        selectedServizioCliente.setServizio(selectedServizio);
+        selectedServizioCliente.setCliente(cliente);
+        servizioClienteDAO.insert(selectedServizioCliente);
         
-        
-
-        //sendEmailCliente(u);
-        //sendEmailDirettore(u);
+        sendEmailCliente(cliente, clearPass);
+        sendEmailAmministratore(cliente, selectedBanca.getAmministratore());
 
     }
     
-    private void sendEmailCliente(Utente cliente) {
+    private void sendEmailCliente(Utente cliente, String strClearPass) {
         String strMsgCliente="La tua richiesta è stata inviata al direttore della banca selezionata\n"+
                 "prodotto "+selectedProdotto.getDenominazione()+"\n"+
                 "servizio "+selectedServizio.getDenominazione()+ "\n"+
-                "attendere conferma da parte della direzione";
+                "username "+cliente.getUsername()+ "\n"+
+                "password "+strClearPass+ "\n"+
+                "attendere conferma da parte dell'amministrazione.";
         
         //cliente for confirmation
         EmailProcessorThread ept=new EmailProcessorThread();
         ept.getSender().setBody(strMsgCliente);
-        ept.getSender().setTo(Session.getInstance().getSelectedFiliale().getDirettore().getEmail());
+        ept.getSender().setSubject("Richiesta registrazione prodotto bancario");
+        ept.getSender().setTo(cliente.getEmail());
         ept.start();                
     }
     
     
-    private void sendEmailDirettore(Utente cliente, Utente direttore) {
-        String strMsgDirettore="L'utente "+
-                cliente.getNome()+" "+
-                cliente.getCognome()+"\n"+
-                " avente email "+direttore.getEmail()+
-                "ha inviato una richiesta in relazione "+
-                "al prodotto "+selectedProdotto.getDenominazione()+"e "+
-                "al servizio "+selectedServizio.getDenominazione()+ ".\n"+
-                "Viene richiesta autorizzazione per l'accesso al servizio";
+    private void sendEmailAmministratore(Utente cliente, Utente amministratore) {
+        String strMsgAmministratore="L'utente "+
+                "Nome:" +cliente.getNome()+" "+
+                "Cognome:" +cliente.getCognome()+"\n"+
+                "Codice Fiscale:" +cliente.getCodice_fiscale()+"\n"+
+                " avente email "+cliente.getEmail()+
+                "ha inviato una richiesta in relazione\n"+
+                " al prodotto "+selectedProdotto.getDenominazione()+"e "+
+                " al servizio "+selectedServizio.getDenominazione()+ ".\n"+
+                " Viene richiesta autorizzazione per l'accesso al servizio";
         
         //cliente for confirmation
         EmailProcessorThread ept=new EmailProcessorThread();
-        ept.getSender().setBody(strMsgDirettore);
-        ept.getSender().setTo(direttore.getEmail());
+        ept.getSender().setBody(strMsgAmministratore);
+        ept.getSender().setTo(amministratore.getEmail());
+        ept.getSender().setSubject("Richiesta registrazione utente "+cliente.getNome()+ " "+cliente.getCognome());
         ept.start();                
     }
     

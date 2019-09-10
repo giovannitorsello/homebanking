@@ -1,27 +1,3 @@
--- MySQL dump 10.16  Distrib 10.1.38-MariaDB, for debian-linux-gnu (x86_64)
---
--- Host: localhost    Database: homebanking
--- ------------------------------------------------------
--- Server version	10.1.38-MariaDB-0+deb9u1
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `banca`
---
-
-DROP TABLE IF EXISTS `banca`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `banca` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) DEFAULT NULL,
@@ -29,26 +5,8 @@ CREATE TABLE `banca` (
   `amministratore_id` int(11) DEFAULT NULL,
   `direttore_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `banca`
---
-
-LOCK TABLES `banca` WRITE;
-/*!40000 ALTER TABLE `banca` DISABLE KEYS */;
-INSERT INTO `banca` VALUES (1,'Banca 1','Via Banca 1',1,0),(2,'Banca 2','Via Banca 2',1,0);
-/*!40000 ALTER TABLE `banca` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `filiale`
---
-
-DROP TABLE IF EXISTS `filiale`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `filiale` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) DEFAULT NULL,
@@ -58,26 +16,8 @@ CREATE TABLE `filiale` (
   `banca_id` int(11) DEFAULT '-1',
   `direttore_id` int(11) DEFAULT '-1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `filiale`
---
-
-LOCK TABLES `filiale` WRITE;
-/*!40000 ALTER TABLE `filiale` DISABLE KEYS */;
-INSERT INTO `filiale` VALUES (2,'Filiale 11','Filiale 11','08:30','12:30',1,1),(3,'Filiale 1','Filiale 1','08:30','12:30',1,1),(4,'aa','aa','08:00','12:00',2,1),(5,'bb','bb','08:00','12:00',2,1);
-/*!40000 ALTER TABLE `filiale` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `gallery`
---
-
-DROP TABLE IF EXISTS `gallery`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descrizione` varchar(45) DEFAULT NULL,
@@ -86,26 +26,8 @@ CREATE TABLE `gallery` (
   `banca_id` int(11) DEFAULT NULL,
   `filiale_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `gallery`
---
-
-LOCK TABLES `gallery` WRITE;
-/*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
-INSERT INTO `gallery` VALUES (1,'/home/torsello/Scrivania/banca.jpeg','ˇÿˇ‡\0JFIF\0\0\0\0\0\0ˇ€\0Ñ\0		\n\n	\r\r\r \"\" $(4,$&1\'-=-157:::#+?D?8C49:7\n\n\n\r\r\Z\Z7%%77777777777777777777777777777777777777777777777777ˇ¿\0\0Å\0°\"\0ˇƒ\0\0\0\0\0\0\0\0\0\0\0\0\0\0ˇƒ\0K\0\n\n\0\0\0\0\0\0!1\"AQRq—23SaÅì±≤¡“#6BrsÇÉëíî°·$&45CUbcÑ¢E£ˇƒ\0\0\0\0\0\0\0\0\0\0\0\0\0\0ˇƒ\0\0\0\0\0\0\0\0\0\0\0\0Aˇ⁄\0\0\0?\0Ó(àÄàààÄààæ^ˆ±∫N R°+sLqéçÜyG7`È*hùEY¶≈±ú]R∆H◊ñ∑kTÕ\'MV8‹m<I,´ç‘^/UAc0∆MÀuÌ⁄º‹#Ê˝ÂeD]KçÀuÙï‡§Öª˛≈gD:“ \"\"\" \"¯íVD›)\Z;Í≥1«§c†aô¸·ÿè\nñâ…%dM“ë¡£îï	[òckåT,3… °·ÿ°‰ﬂUÔ˝.WI˝®ı4t≠®(√@≥[ÕfØΩf˝5çY∑’|ü¶JÁˇ\0f-û∂`£h\Z£o1ùj,⁄#≠4ìaªõ[[º…ä`‚kÈÿ]º•KTcîf\ZlÌvÎ<.ìN˙Å“@qw÷FÛ©„#ÄÿZµÊß:ZNnë$a≥áÅh∆∆c”‡’‚*†€”9“\'6æçÌ¡6∂≠}zØÕèÑaè™†d1W5Œ”}N®√uíx<äã.\'WL5ùÒ˙¡MQ‚î’CÇ˝Òµ⁄àUú.i±*mÛWBÍ2Ó¿nóqßP∑AY¶ß~“Ì±Ï‘‡íÿb‹äØIâU”\rNﬂ\r†ˆCÛ‡SXµ5^†Ì	8ÿÌD-À©âK¢®\"\"\" \"\"âed-“ë¡£îïWòö˜∞ËåÔÁ_Ç<*[§euîÔ\0È\rW‚<_zÖöó˛9ëµÏh‡çõõlŸﬁY∫±,5UéΩt¶Kˇ\0éûU±\r,lm§smƒ∆Íä˙s„wf«ûñ;©|Z‚|YÍXV”K\Z,“–9˜Mº·Ù≠KA‹Oã=Ih;âÒg©MŸRæzÈÁ{Ë†|µ¬¨TG!t±Ô∞‘!eÆÀxç\\√›)Ÿä∂∏T1‚°Ê6∆Émn@Œ•h¥ƒ¯≥‘ñÉ∏üzïT%n..ÏA∏ì`â≥‰¶ñKüåh\0çCëh÷Âj™˙Lé¨“À\r%ïu º∏XñÍ‚µ¡Â‰VõA‹Oã=Ih;âÒg©5\Zπzü°†ò§ÒTx0Œ◊\'≥ãHq-˘€\'§ﬁp˙Vµ†Ó\'≈û§¥ƒ¯≥‘†Õ#\"ê‹ÿ;îkZZ{€Há€cöt\\›†Ó\'≈û§ˆé‰|[∫êe¶¨≠£«wãöÌN\n^ã¶™:\ZZs]®®à‹Ê±å}…∞‡•%KÜZ¶9Êk	f∂€h+SJïDE∂DD@DD´[NŸ@ëÓµÇ‡\ZxÏV“=ıX]s;X√¨pooΩx˙ä„qK|≥gﬁ§qJX£1F∆tı◊3ŒUıT¥räZâa“∞%é∂´Ÿs≈jMÏïé≈<êò®…c‹ÀÄ˚\\kV|°òÒåvû¢y›OäAdmuŒ´‹ù.ˇ\0ïrº>ù≤ê]Àeu…0∫<≈I^·•¬F_S¯$ãéïhøÔöΩÔ¶ﬂìCÒUº„ôÒåæ iau<çô≈•ØkÆ∏≥∂)l⁄XKuX[ºπ&7QQàc2∂Æy$lgEÅŒ‘—´bêY®˝ëqÍ™® ltm›dlzN≥nm~…t&TVÍT4j€†z◊ éâ≠`∑Åu,∂◊MïigôÓíS¶“˜ìg%≤TWê·K5\rN,6øE◊9≤N<ŸÕ∆åñ8¥êccnr€Œ’TÙœe=D±ê†Î\\™î‘Ll`b◊E ó«a®öwS∆\"x`lmuŒ´‹› ≈æjÙ/æõ•…°¯Æoí·|y™Ç6Jˆ≈3‹ŸcÕê8ã¯lUÔì]£q`vjÿ•DÊe©{Ÿ<émàs5)∆çÅrl6û5ï,¸ñb=≤F]Ó„v≥µL-…à\"\"†àààÄàà\"±~¡›>Ö»ÛﬂÏoÈoú∫Ê/ÿ;Ûƒπ{˝ç˝-Ûñ=_å\\ÅﬂW¨§ÀfZ˝NÛ\n£`Ωì~øeQ˙«EùÊî¢3v∑Ù9r\ZØﬂï–^ÃΩ≠›\\Üß˜ÌG√Ù ûçû‘ﬁÖ—2‡∂S•˘<‚®1joBË‹•7LûRÇáùª_ oïF“2Ç§s∑j˘MÚ≠*–T∂Se≥V∫Ô1 ·ô{Ù;“™ôX~¥aøÔ1 ◊ô{Ù;“¢,G‹Â≈ü)S\n(˚ú†¯≥Â*atAV/ÿ;Ûƒπ{˝ç˝-Ûó[∆\\?;%œç;ÕÁäÌÚÆ~µ‚ØÉvMÈW‹¶ÎÊZ˝NÛJ†a&÷ÈWlü(9ûÉ_æwòÂQjÃΩ≠›\\Üß˜ÌG√Ù◊≥	è\r‰r‰5z±⁄õÍ·˙êX¢µ7°t,ºoîÈ∫dÚïÃô-òﬁÖ“rÀ¡ TÄùwêˇ\0±J(Ÿ€µ|¶˘VÖ	¥Hg`w+ˇ\0S|™ö@#⁄™¨yQ◊Õo∆ªÃr∂Ê^¡˝Ù™VPêŸÜˇ\0«ˇ\07+¶b:l~è!Q£ÓrÉ‚œî©uîΩŒ–éF)S§AxΩ@DD· Oä÷∂6Ó!Ì¬·◊Ô©hèÆìw“‹√¨N´Ç™∏ÓY_O,p5ÖŒa\0;Vªt+î|¯>ß‚ölÁ¡ı?Üúâ¬9‹«j ÿéBHˆ4“ﬂ’∫Qƒa√_\n˜∑–Øp£ÓTWÂ‹˚`Ç;Óbïó€£ê∆\n˙ij/†›º°r¸ÔÜUa∏ç5M@héfË¥ÉÔÅπøÄÖ÷t„Á¡ıƒçßñ€†•}∂iE{ „ëHd–é-oy\rhi:ÇÏ‰Á!Ñ9ëµßV´Ä∞ÓÄˆ∫=[-Ytÿ}¸Q4≈o¿Îk©ee;Z\\Ê–Mµ˝õC8Åpu}Öv›8˘Ùˇ\0Qb‹(˚ïà)æ∆$∫æ∫§¥∫&¬\"“\Z¯DÉ‰z∑W”…PcNæ]K4mÇ DbïÄÌ—ä◊_zQÛ‡˙ä\rúôM-D3€LÃ^-}ÑËV[•™m<Õê>\"––Eı+r6F5Õ ‹^¿≠ ïëxà¥èQxà=DDÁkù⁄Àiê.†ﬂGà3±Á¬B∞\"ò+Nßƒ∆»iœÀwRƒÊb„e-9˘◊z™”d≤ú≈’E«()œœª’X›.:6atÁ¸áz™Âd∞‰Na™Q®«øî¡ˆìÍ/ùıèˇ\0(ÉÌ\'‘W{D—âÃ5HﬂXˇ\0Úà>“}D8˘ˇ\0®ÉÌ\'‘W}»ñâÃ5Kc«n\0ˇ\0!ﬁ¢»◊„gnN>}ﬁ™∏Xr%á\"s\rU\Z1É∂äú|ÛΩUë∞‚ßm=8˘«u+=í…Ã5]m.%ÃÄ|£‘§0⁄jàd.ú≈b€\0À›IX/l¨Üàà™àÄàààÄàààÉ¬Ω(àQÖzà¬àÄàààÄàà?ˇŸ','2019-09-09 00:00:00',1,1),(2,'/home/torsello/Scrivania/banca.jpeg','ˇÿˇ‡\0JFIF\0\0\0\0\0\0ˇ€\0Ñ\0		\n\n	\r\r\r \"\" $(4,$&1\'-=-157:::#+?D?8C49:7\n\n\n\r\r\Z\Z7%%77777777777777777777777777777777777777777777777777ˇ¿\0\0Å\0°\"\0ˇƒ\0\0\0\0\0\0\0\0\0\0\0\0\0\0ˇƒ\0K\0\n\n\0\0\0\0\0\0!1\"AQRq—23SaÅì±≤¡“#6BrsÇÉëíî°·$&45CUbcÑ¢E£ˇƒ\0\0\0\0\0\0\0\0\0\0\0\0\0\0ˇƒ\0\0\0\0\0\0\0\0\0\0\0\0Aˇ⁄\0\0\0?\0Ó(àÄàààÄààæ^ˆ±∫N R°+sLqéçÜyG7`È*hùEY¶≈±ú]R∆H◊ñ∑kTÕ\'MV8‹m<I,´ç‘^/UAc0∆MÀuÌ⁄º‹#Ê˝ÂeD]KçÀuÙï‡§Öª˛≈gD:“ \"\"\" \"¯íVD›)\Z;Í≥1«§c†aô¸·ÿè\nñâ…%dM“ë¡£îï	[òckåT,3… °·ÿ°‰ﬂUÔ˝.WI˝®ı4t≠®(√@≥[ÕfØΩf˝5çY∑’|ü¶JÁˇ\0f-û∂`£h\Z£o1ùj,⁄#≠4ìaªõ[[º…ä`‚kÈÿ]º•KTcîf\ZlÌvÎ<.ìN˙Å“@qw÷FÛ©„#ÄÿZµÊß:ZNnë$a≥áÅh∆∆c”‡’‚*†€”9“\'6æçÌ¡6∂≠}zØÕèÑaè™†d1W5Œ”}N®√uíx<äã.\'WL5ùÒ˙¡MQ‚î’CÇ˝Òµ⁄àUú.i±*mÛWBÍ2Ó¿nóqßP∑AY¶ß~“Ì±Ï‘‡íÿb‹äØIâU”\rNﬂ\r†ˆCÛ‡SXµ5^†Ì	8ÿÌD-À©âK¢®\"\"\" \"\"âed-“ë¡£îïWòö˜∞ËåÔÁ_Ç<*[§euîÔ\0È\rW‚<_zÖöó˛9ëµÏh‡çõõlŸﬁY∫±,5UéΩt¶Kˇ\0éûU±\r,lm§smƒ∆Íä˙s„wf«ûñ;©|Z‚|YÍXV”K\Z,“–9˜Mº·Ù≠KA‹Oã=Ih;âÒg©MŸRæzÈÁ{Ë†|µ¬¨TG!t±Ô∞‘!eÆÀxç\\√›)Ÿä∂∏T1‚°Ê6∆Émn@Œ•h¥ƒ¯≥‘ñÉ∏üzïT%n..ÏA∏ì`â≥‰¶ñKüåh\0çCëh÷Âj™˙Lé¨“À\r%ïu º∏XñÍ‚µ¡Â‰VõA‹Oã=Ih;âÒg©5\Zπzü°†ò§ÒTx0Œ◊\'≥ãHq-˘€\'§ﬁp˙Vµ†Ó\'≈û§¥ƒ¯≥‘†Õ#\"ê‹ÿ;îkZZ{€Há€cöt\\›†Ó\'≈û§ˆé‰|[∫êe¶¨≠£«wãöÌN\n^ã¶™:\ZZs]®®à‹Ê±å}…∞‡•%KÜZ¶9Êk	f∂€h+SJïDE∂DD@DD´[NŸ@ëÓµÇ‡\ZxÏV“=ıX]s;X√¨pooΩx˙ä„qK|≥gﬁ§qJX£1F∆tı◊3ŒUıT¥räZâa“∞%é∂´Ÿs≈jMÏïé≈<êò®…c‹ÀÄ˚\\kV|°òÒåvû¢y›OäAdmuŒ´‹ù.ˇ\0ïrº>ù≤ê]Àeu…0∫<≈I^·•¬F_S¯$ãéïhøÔöΩÔ¶ﬂìCÒUº„ôÒåæ iau<çô≈•ØkÆ∏≥∂)l⁄XKuX[ºπ&7QQàc2∂Æy$lgEÅŒ‘—´bêY®˝ëqÍ™® ltm›dlzN≥nm~…t&TVÍT4j€†z◊ éâ≠`∑Åu,∂◊MïigôÓíS¶“˜ìg%≤TWê·K5\rN,6øE◊9≤N<ŸÕ∆åñ8¥êccnr€Œ’TÙœe=D±ê†Î\\™î‘Ll`b◊E ó«a®öwS∆\"x`lmuŒ´‹› ≈æjÙ/æõ•…°¯Æoí·|y™Ç6Jˆ≈3‹ŸcÕê8ã¯lUÔì]£q`vjÿ•DÊe©{Ÿ<émàs5)∆çÅrl6û5ï,¸ñb=≤F]Ó„v≥µL-…à\"\"†àààÄàà\"±~¡›>Ö»ÛﬂÏoÈoú∫Ê/ÿ;Ûƒπ{˝ç˝-Ûñ=_å\\ÅﬂW¨§ÀfZ˝NÛ\n£`Ωì~øeQ˙«EùÊî¢3v∑Ù9r\ZØﬂï–^ÃΩ≠›\\Üß˜ÌG√Ù ûçû‘ﬁÖ—2‡∂S•˘<‚®1joBË‹•7LûRÇáùª_ oïF“2Ç§s∑j˘MÚ≠*–T∂Se≥V∫Ô1 ·ô{Ù;“™ôX~¥aøÔ1 ◊ô{Ù;“¢,G‹Â≈ü)S\n(˚ú†¯≥Â*atAV/ÿ;Ûƒπ{˝ç˝-Ûó[∆\\?;%œç;ÕÁäÌÚÆ~µ‚ØÉvMÈW‹¶ÎÊZ˝NÛJ†a&÷ÈWlü(9ûÉ_æwòÂQjÃΩ≠›\\Üß˜ÌG√Ù◊≥	è\r‰r‰5z±⁄õÍ·˙êX¢µ7°t,ºoîÈ∫dÚïÃô-òﬁÖ“rÀ¡ TÄùwêˇ\0±J(Ÿ€µ|¶˘VÖ	¥Hg`w+ˇ\0S|™ö@#⁄™¨yQ◊Õo∆ªÃr∂Ê^¡˝Ù™VPêŸÜˇ\0«ˇ\07+¶b:l~è!Q£ÓrÉ‚œî©uîΩŒ–éF)S§AxΩ@DD· Oä÷∂6Ó!Ì¬·◊Ô©hèÆìw“‹√¨N´Ç™∏ÓY_O,p5ÖŒa\0;Vªt+î|¯>ß‚ölÁ¡ı?Üúâ¬9‹«j ÿéBHˆ4“ﬂ’∫Qƒa√_\n˜∑–Øp£ÓTWÂ‹˚`Ç;Óbïó€£ê∆\n˙ij/†›º°r¸ÔÜUa∏ç5M@héfË¥ÉÔÅπøÄÖ÷t„Á¡ıƒçßñ€†•}∂iE{ „ëHd–é-oy\rhi:ÇÏ‰Á!Ñ9ëµßV´Ä∞ÓÄˆ∫=[-Ytÿ}¸Q4≈o¿Îk©ee;Z\\Ê–Mµ˝õC8Åpu}Öv›8˘Ùˇ\0Qb‹(˚ïà)æ∆$∫æ∫§¥∫&¬\"“\Z¯DÉ‰z∑W”…PcNæ]K4mÇ DbïÄÌ—ä◊_zQÛ‡˙ä\rúôM-D3€LÃ^-}ÑËV[•™m<Õê>\"––Eı+r6F5Õ ‹^¿≠ ïëxà¥èQxà=DDÁkù⁄Àiê.†ﬂGà3±Á¬B∞\"ò+Nßƒ∆»iœÀwRƒÊb„e-9˘◊z™”d≤ú≈’E«()œœª’X›.:6atÁ¸áz™Âd∞‰Na™Q®«øî¡ˆìÍ/ùıèˇ\0(ÉÌ\'‘W{D—âÃ5HﬂXˇ\0Úà>“}D8˘ˇ\0®ÉÌ\'‘W}»ñâÃ5Kc«n\0ˇ\0!ﬁ¢»◊„gnN>}ﬁ™∏Xr%á\"s\rU\Z1É∂äú|ÛΩUë∞‚ßm=8˘«u+=í…Ã5]m.%ÃÄ|£‘§0⁄jàd.ú≈b€\0À›IX/l¨Üàà™àÄàààÄàààÉ¬Ω(àQÖzà¬àÄàààÄàà?ˇŸ','2019-09-09 00:00:00',1,1);
-/*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `operazione`
---
-
-DROP TABLE IF EXISTS `operazione`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `operazione` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `data` datetime DEFAULT NULL,
@@ -114,26 +36,13 @@ CREATE TABLE `operazione` (
   `tipologia` varchar(45) DEFAULT NULL,
   `servizio_id` int(11) NOT NULL DEFAULT '-1',
   `stato` varchar(20) DEFAULT 'non confermata',
+  `cliente_id` int(11) DEFAULT NULL,
+  `data_conferma_cassiere` date DEFAULT NULL,
+  `filiale_id` int(11) DEFAULT NULL,
+  `cassiere_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`,`servizio_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `operazione`
---
-
-LOCK TABLES `operazione` WRITE;
-/*!40000 ALTER TABLE `operazione` DISABLE KEYS */;
-/*!40000 ALTER TABLE `operazione` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `prodotto`
---
-
-DROP TABLE IF EXISTS `prodotto`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prodotto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `denominazione` varchar(45) DEFAULT NULL,
@@ -145,26 +54,8 @@ CREATE TABLE `prodotto` (
   `interessi_attivi` float DEFAULT NULL,
   `banca_id` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`id`,`banca_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `prodotto`
---
-
-LOCK TABLES `prodotto` WRITE;
-/*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
-INSERT INTO `prodotto` VALUES (3,'aaaa','2019-09-05','2019-09-20','ffff','lll',2,3,1),(4,'bbbb','2019-09-05','2019-09-20','ffff','lll',2,3,1),(5,'uuuu','2019-09-05','2019-09-20','ffff','lll',2,3,1);
-/*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `servizio`
---
-
-DROP TABLE IF EXISTS `servizio`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servizio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `denominazione` varchar(45) NOT NULL DEFAULT 'servizio generico',
@@ -173,52 +64,19 @@ CREATE TABLE `servizio` (
   `descrizione` varchar(500) DEFAULT 'servizio finanziario generico',
   `numero_massimo_operazioni` int(11) DEFAULT '200',
   `prodotto_id` int(11) DEFAULT '-1',
+  `tipologieOperazioneServizio` varchar(200) DEFAULT 'addebita,accredita',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `servizio`
---
-
-LOCK TABLES `servizio` WRITE;
-/*!40000 ALTER TABLE `servizio` DISABLE KEYS */;
-INSERT INTO `servizio` VALUES (4,'Den. servizio','2019-09-11','2021-09-18','Descrizione estesa',20,3),(5,'Secondo servizio bbb','2019-09-03','2019-09-20','Descrizione estesa',2000,4),(6,'Servizio di uuuu','2019-09-03','2019-09-04','Carta di Credito',200,5);
-/*!40000 ALTER TABLE `servizio` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `servizioCliente`
---
-
-DROP TABLE IF EXISTS `servizioCliente`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servizioCliente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `saldo` float DEFAULT '0',
   `stato` varchar(20) DEFAULT 'disattivato',
   `servizio_id` int(11) DEFAULT '-1',
+  `cliente_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `servizioCliente`
---
-
-LOCK TABLES `servizioCliente` WRITE;
-/*!40000 ALTER TABLE `servizioCliente` DISABLE KEYS */;
-/*!40000 ALTER TABLE `servizioCliente` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `utente`
---
-
-DROP TABLE IF EXISTS `utente`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `utente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `data_registrazione` datetime DEFAULT NULL,
@@ -236,26 +94,4 @@ CREATE TABLE `utente` (
   `data_nascita` date DEFAULT NULL,
   `filiale_id` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`id`,`filiale_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `utente`
---
-
-LOCK TABLES `utente` WRITE;
-/*!40000 ALTER TABLE `utente` DISABLE KEYS */;
-INSERT INTO `utente` VALUES (1,'2019-09-07 00:00:00','Admin','','','first.admin@domain.com','admin','61646d696e','Amministratore','FRTAMM','000000000000','first.admin@domain.com','UUUUU','2019-09-07',0),(5,'2019-09-09 00:00:00','Carlo','Rossi','Via Mazzini n.4, 73040, Galatina, LE','carlo.rossi@domain.it','carlo.rossi@domain.it','134234267556','Cliente','TRSBTTPOIDSI','','','','2019-09-09',2),(6,'2019-09-09 00:00:00','Giovanni','Torsello','Via Mazzini n.4, 73040, Galatina, LE','giovanni.torsello@gmail.com','giovanni.torsello@gmail.com','789162849256','Cliente','TRSBTTPOIDSI','','','','2019-09-09',3);
-/*!40000 ALTER TABLE `utente` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2019-09-09 20:38:22
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;

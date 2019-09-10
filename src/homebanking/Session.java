@@ -20,7 +20,8 @@ public final class Session {
     private Prodotto selectedProdotto=new Prodotto();
     private Servizio selectedServizio=new Servizio();
     private Operazione selectedOperazione=new Operazione();
-
+    private Utente selectedCliente=new Utente();
+    
     static private Session instance=null;
 
     public static Session getInstance() {
@@ -150,7 +151,7 @@ public final class Session {
     }
     
     public void openGestioneOperazioniCliente() {
-        openGraphicInterface("Area cliente", "fxml/gestioneOperazioniCassiere.fxml");
+        openGraphicInterface("Area cliente", "fxml/gestioneOperazioniCliente.fxml");
     }
     
     public void openRegistrazioneUtente() {
@@ -185,6 +186,27 @@ public final class Session {
         Optional opt=alert.showAndWait();
         if(((ButtonType)opt.get()).getButtonData().isDefaultButton()) return true;            
         else return false;
+    }
+
+    /**
+     * @return the selectedCliente
+     */
+    public Utente getSelectedCliente() {
+        return selectedCliente;
+    }
+
+    /**
+     * @param selectedCliente the selectedCliente to set
+     */
+    public void setSelectedCliente(Utente selectedCliente) {
+        this.selectedCliente = selectedCliente;
+    }
+
+    /**
+     * @param aInstance the instance to set
+     */
+    public static void setInstance(Session aInstance) {
+        instance = aInstance;
     }
     
 }
