@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="536.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneOperazioniCliente">
+   <children>
+      <Label layoutX="7.0" prefHeight="40.0" prefWidth="437.0" text="Gestione operazioni - area cliente">
+         <font>
+            <Font name="System Italic" size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnDelete" disable="true" layoutX="422.0" layoutY="76.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="105.0" text="Elimina" />
+      <Button fx:id="btnInsert" layoutX="422.0" layoutY="40.0" mnemonicParsing="false" onAction="#insert" prefHeight="25.0" prefWidth="105.0" text="Inserisci" />
+      <TableView fx:id="tblOperazioni" layoutX="10.0" layoutY="163.0" prefHeight="204.0" prefWidth="523.0">
+         <columns>
+            <TableColumn prefWidth="153.0" text="descrizione" />
+            <TableColumn prefWidth="99.0" text="importo" />
+            <TableColumn prefWidth="125.0" text="data valuta" />
+            <TableColumn prefWidth="145.0" text="stato" />
+         </columns>
+      </TableView>
+      <Label fx:id="txtUtente" layoutX="14.0" layoutY="386.0" text="Cliente" />
+      <Label fx:id="txtBanca" layoutX="231.0" layoutY="386.0" text="Banca" />
+      <Label fx:id="txtFiliale" layoutX="422.0" layoutY="386.0" text="Filiale" />
+      <ComboBox fx:id="cmbTipologia" layoutX="163.0" layoutY="40.0" prefHeight="25.0" prefWidth="211.0" />
+      <Label layoutX="34.0" layoutY="45.0" text="Tipo operazione" />
+      <Label layoutX="34.0" layoutY="81.0" text="Importo" />
+      <TextField fx:id="txtImporto" layoutX="163.0" layoutY="76.0" prefHeight="25.0" prefWidth="211.0" />
+      <DatePicker fx:id="dtValuta" layoutX="163.0" layoutY="112.0" prefHeight="25.0" prefWidth="211.0" />
+      <Label layoutX="34.0" layoutY="117.0" text="Data valuta" />
+   </children>
+</AnchorPane>

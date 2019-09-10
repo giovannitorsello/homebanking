@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="558.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneServizi">
+   <children>
+      <Label layoutX="11.0" layoutY="8.0" prefHeight="40.0" prefWidth="299.0" text="Gestione servizi">
+         <font>
+            <Font name="System Italic" size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtDenominazione" layoutX="177.0" layoutY="48.0" prefHeight="25.0" prefWidth="174.0" text="Den. servizio" />
+      <TextField fx:id="txtDescrizione" layoutX="177.0" layoutY="129.0" prefHeight="25.0" prefWidth="174.0" promptText="Descrizione estesa" text="Descrizione estesa" />
+      <Label layoutX="15.0" layoutY="47.0" prefHeight="25.0" prefWidth="128.0" text="denominazione:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="75.0" prefHeight="25.0" prefWidth="128.0" text="data attivazione:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="102.0" prefHeight="25.0" prefWidth="128.0" text="data scadenza:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="129.0" prefHeight="25.0" prefWidth="128.0" text="descrizione:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="155.0" prefHeight="25.0" prefWidth="157.0" text="numero operazioni:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNumeroMassimoOperazioni" layoutX="177.0" layoutY="156.0" prefHeight="25.0" prefWidth="174.0" promptText="20" text="20" />
+      <Button fx:id="btnInsert" layoutX="408.0" layoutY="75.0" mnemonicParsing="false" onAction="#insert" prefHeight="25.0" prefWidth="105.0" text="Inserisci" />
+      <DatePicker fx:id="dtAttivazione" layoutX="177.0" layoutY="75.0" promptText="01/01/2000" />
+      <DatePicker fx:id="dtScadenza" layoutX="177.0" layoutY="102.0" promptText="31/12/2020" />
+      <Button fx:id="btnDelete" disable="true" layoutX="408.0" layoutY="107.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="105.0" text="Elimina" />
+      <Button fx:id="btnFind" layoutX="408.0" layoutY="44.0" mnemonicParsing="false" onAction="#find" prefHeight="25.0" prefWidth="105.0" text="Ricerca" />
+      <TableView fx:id="tblServizi" layoutX="14.0" layoutY="191.0" prefHeight="337.0" prefWidth="539.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="denominazione">
+                <cellValueFactory><PropertyValueFactory property="denominazione" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="118.0" text="descrizione">
+                <cellValueFactory><PropertyValueFactory property="descrizione" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="82.0" text="attivazione">
+                <cellValueFactory><PropertyValueFactory property="data_attivazione" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="85.0" text="scadenza">
+                <cellValueFactory><PropertyValueFactory property="data_scadenza" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="168.0" text="numero operazioni">
+                <cellValueFactory><PropertyValueFactory property="numero_massimo_operazioni" /></cellValueFactory>
+            </TableColumn>
+         </columns>
+      </TableView>
+      <Label fx:id="lblBanca" layoutX="16.0" layoutY="542.0" text="Banca" />
+      <Label fx:id="lblFiliale" layoutX="245.0" layoutY="542.0" text="Filiale" />
+      <Label fx:id="lblProdotto" layoutX="402.0" layoutY="542.0" text="Prodotto" />
+      <Label fx:id="lblUtente" layoutX="408.0" layoutY="14.0" text="Utente" />
+   </children>
+</AnchorPane>

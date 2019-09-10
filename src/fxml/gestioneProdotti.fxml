@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="536.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneProdotti">
+   <children>
+      <Label layoutX="21.0" layoutY="14.0" prefHeight="40.0" prefWidth="255.0" text="Catalogo prodotti">
+         <font>
+            <Font name="System Italic" size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtDenominazione" layoutX="175.0" layoutY="61.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="txtDescrizione" layoutX="175.0" layoutY="142.0" prefHeight="25.0" prefWidth="174.0" />
+      <Label layoutX="22.0" layoutY="60.0" prefHeight="25.0" prefWidth="128.0" text="denominazione:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUrlCondizioni" layoutX="175.0" layoutY="169.0" prefHeight="25.0" prefWidth="174.0" />
+      <Label layoutX="21.0" layoutY="88.0" prefHeight="25.0" prefWidth="128.0" text="data attivazione:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="115.0" prefHeight="25.0" prefWidth="128.0" text="data scadenza:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="142.0" prefHeight="25.0" prefWidth="128.0" text="descrizione:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="169.0" prefHeight="25.0" prefWidth="157.0" text="url condizioni generali:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="196.0" prefHeight="25.0" prefWidth="157.0" text="interessi passivi:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="223.0" prefHeight="25.0" prefWidth="157.0" text="interessi attivi:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtInteressiPassivi" layoutX="175.0" layoutY="196.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="txtInteressiAttivi" layoutX="175.0" layoutY="223.0" prefHeight="25.0" prefWidth="174.0" />
+      <Button fx:id="btnInsert" layoutX="397.0" layoutY="91.0" mnemonicParsing="false" onAction="#insert" prefHeight="25.0" prefWidth="105.0" text="Inserisci" />
+      <DatePicker fx:id="dtAttivazione" layoutX="175.0" layoutY="88.0" />
+      <DatePicker fx:id="dtScadenza" layoutX="175.0" layoutY="115.0" />
+      <Button fx:id="btnDelete" disable="true" layoutX="397.0" layoutY="123.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="105.0" text="Elimina" />
+      <Button fx:id="btnFind" layoutX="397.0" layoutY="60.0" mnemonicParsing="false" onAction="#find" prefHeight="25.0" prefWidth="105.0" text="Ricerca" />
+      <TableView fx:id="tblProdotti" layoutX="13.0" layoutY="258.0" prefHeight="200.0" prefWidth="494.0">
+        <columns>
+            <TableColumn prefWidth="95.0" text="denominazione">
+                <cellValueFactory><PropertyValueFactory property="denominazione" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="74.0" text="descrizione">
+                 <cellValueFactory><PropertyValueFactory property="descrizione" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="79.0" text="attivazione">
+                <cellValueFactory><PropertyValueFactory property="data_attivazione" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="70.0" text="scadenza">
+               <cellValueFactory><PropertyValueFactory property="data_scadenza" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="85.0" text="i. attivi">
+               <cellValueFactory><PropertyValueFactory property="interessi_attivi" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="90.0" text="i. passivi">
+               <cellValueFactory><PropertyValueFactory property="interessi_passivi" /></cellValueFactory>
+            </TableColumn>
+        </columns>
+      </TableView>
+      <Button fx:id="btnInsertService" disable="true" layoutX="397.0" layoutY="169.0" mnemonicParsing="false" onAction="#insertService" prefHeight="51.0" prefWidth="105.0" text="Insersci servizio" />
+      <Label fx:id="lblBanca" layoutX="14.0" layoutY="470.0" text="Banca" />
+      <Label fx:id="lblFiliale" layoutX="201.0" layoutY="470.0" text="Filiale" />
+      <Label fx:id="lblUtente" layoutX="349.0" layoutY="14.0" text="Utente" />
+   </children>
+</AnchorPane>

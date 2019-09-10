@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="775.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneFiliali">
+   <children>
+      <Button fx:id="btnInsert" layoutX="14.0" layoutY="108.0" mnemonicParsing="false" onAction="#insertFiliale" prefHeight="25.0" prefWidth="149.0" text="Salva" />
+      <ImageView fx:id="imgFiliale" fitHeight="101.0" fitWidth="119.0" layoutX="611.0" layoutY="75.0" onMouseClicked="#clickImgFilialeImage" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="11.0" layoutY="47.0" text="Nome" />
+      <TextField fx:id="txtNome" layoutX="89.0" layoutY="42.0" prefHeight="25.0" prefWidth="235.0" />
+      <Button fx:id="btnInsertImage" layoutX="335.0" layoutY="108.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="157.0" text="Carica Foto" />
+      <TextField fx:id="txtIndirizzo" layoutX="89.0" layoutY="70.0" prefHeight="25.0" prefWidth="235.0" />
+      <Label layoutX="14.0" layoutY="75.0" text="Indirizzo" />
+      <TableView fx:id="tblFiliali" layoutX="11.0" layoutY="192.0" prefHeight="284.0" prefWidth="754.0">
+        <columns>
+          <TableColumn prefWidth="135.0" text="Denominazione">
+              <cellValueFactory><PropertyValueFactory property="nome" /></cellValueFactory>
+          </TableColumn>
+          <TableColumn prefWidth="99.0" text="Indirizzo">
+              <cellValueFactory><PropertyValueFactory property="indirizzo" /></cellValueFactory>
+          </TableColumn>
+            <TableColumn prefWidth="151.0" text="Codice Filiale">
+                <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="132.0" text="Orario Apertura">
+                <cellValueFactory><PropertyValueFactory property="orarioApertura" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="165.0" text="Orario Chiusura">
+                <cellValueFactory><PropertyValueFactory property="orarioChiusura" /></cellValueFactory>
+            </TableColumn>
+        </columns>
+      </TableView>
+      <Button fx:id="btnDelete" layoutX="177.0" layoutY="108.0" mnemonicParsing="false" onAction="#deleteFiliale" prefHeight="25.0" prefWidth="149.0" text="Elimina" />
+      <Label layoutX="14.0" layoutY="6.0" text="Gestione Filiali - area Amministratore">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblBanca" layoutX="11.0" layoutY="486.0" text="Banca selezionata">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="336.0" layoutY="75.0" text="Chiusura" />
+      <Label layoutX="336.0" layoutY="47.0" text="Apertura" />
+      <TextField fx:id="txtOrarioApertura" layoutX="410.0" layoutY="42.0" prefHeight="25.0" prefWidth="82.0" />
+      <TextField fx:id="txtOrarioChiusura" layoutX="410.0" layoutY="70.0" prefHeight="25.0" prefWidth="82.0" />
+      <Label layoutX="515.0" layoutY="41.0" text="Accedi come" />
+      <Button fx:id="btnCassiere" layoutX="611.0" layoutY="36.0" mnemonicParsing="false" onAction="#asCassiere" prefHeight="25.0" prefWidth="119.0" text="Cassiere" />
+      <Button fx:id="btnInsertUtente" layoutX="14.0" layoutY="147.0" mnemonicParsing="false" onAction="#insertUtente" prefHeight="27.0" prefWidth="149.0" text="Inserisci Utente" />
+      <Label fx:id="lblUtente" layoutX="515.0" layoutY="14.0" text="Utente" />
+   </children>
+</AnchorPane>
