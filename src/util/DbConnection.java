@@ -18,24 +18,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class DbConnectionMysql {
+public class DbConnection {
 
     private static Connection db=null;
-    private static DbConnectionMysql instance=null;
+    private static DbConnection instance=null;
     
     private Statement stmt;
     private ResultSet rs;
     private boolean b_connected=false;
         
 
-    public static DbConnectionMysql getInstance() {
+    public static DbConnection getInstance() {
         try {
             if(instance == null)
-                instance = new DbConnectionMysql();
+                instance = new DbConnection();
             if((instance.db==null) || (!instance.db.isValid(1000))) instance.connect();
             return instance;
         } catch (SQLException ex) {
-            Logger.getLogger(DbConnectionMysql.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -43,24 +43,41 @@ public class DbConnectionMysql {
     // Apre la connessione con il Database
     private static boolean connect() {
         try {
-            
+            String engine=Session.getInstance().getConfig().getDb_engine();
             String username=Session.getInstance().getConfig().getDb_login();
             String password=Session.getInstance().getConfig().getDb_password();
             String server=Session.getInstance().getConfig().getDb_server();
             String port=Session.getInstance().getConfig().getDb_port();
             String dbname=Session.getInstance().getConfig().getDb_database();
+            String url_db="";
+            if(engine.equals("mysql")) {
+                url_db="jdbc:mysql://localhost:3306/"+dbname+"?user="+username+"&password="+password+"&useLegacyDatetimeCode=false&serverTimezone=Europe/Rome";                     
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            }
+            if(engine.equals("derby")) {
+                Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+                url_db="jdbc:derby:://localhost:1527:homebanking";
+                
+            }
             
-            String url_db="jdbc:mysql://localhost:3306/"+dbname+"?user="+username+"&password="+password+"&useLegacyDatetimeCode=false&serverTimezone=Europe/Rome";         
-            //String url="jdbc:mysql://localhost:3306/"+dbname+"?user="+username+"&password="+password+"&useLegacyDatetimeCode=false&serverTimezone=UTC";         
-            Class.forName("com.mysql.cj.jdbc.Driver");
             db = DriverManager.getConnection(url_db);            
-            DbConnectionMysql.getInstance().setB_connected(db.isValid(2000));
-            return DbConnectionMysql.getInstance().isB_connected();            
+            DbConnection.getInstance().setB_connected(db.isValid(2000));
+            return DbConnection.getInstance().isB_connected();            
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public Statement createStatement() {
+        try {
+            if(db.isValid(1000))
+            return db.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public boolean createTables(String db_name, String filename) {
@@ -82,7 +99,7 @@ public class DbConnectionMysql {
             sql_schema = Files.readString(Paths.get(filename), StandardCharsets.US_ASCII);
             return execute(sql_schema);                
         } catch (Exception ex) {
-            Logger.getLogger(DbConnectionMysql.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }                                
         return false;
     }
@@ -153,7 +170,7 @@ public class DbConnectionMysql {
         try {
             return db.prepareStatement(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(DbConnectionMysql.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

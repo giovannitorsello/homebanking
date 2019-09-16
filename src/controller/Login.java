@@ -18,34 +18,37 @@ import model.entities.Banca;
 import model.entities.Utente;
 import util.MD5;
 import homebanking.Session;
-import java.io.File;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Window;
 import javafx.util.Duration;
-import util.DbConnectionMysql;
+import model.entities.Filiale;
+import util.DbConnection;
 
 
 public class Login {
 
-    Utente selectedUtente=null;
-    Banca selectedBanca=null;
+    Utente utente=null;
+    Banca banca=null;
+    Filiale filiale=null;
 
     UtenteDAO utenteDAO=new UtenteDAO();
     BancaDAO bancaDAO=new BancaDAO();
+    
+    @FXML 
+    private AnchorPane panel;
 
     @FXML
     ImageView imgBackground;
@@ -56,6 +59,9 @@ public class Login {
     @FXML
     private TextField txtPassword;
 
+    @FXML
+    private Button btnLogin;
+    
     @FXML
     private ComboBox<Banca> cmbBanca;
 
@@ -73,38 +79,62 @@ public class Login {
         initBackgroundImage();
         initCmbBanca();
         initLabelServizi();
+        
+        txtUsername.textProperty().addListener(new ChangeListener<String>() {
+        @Override
+            public void changed(ObservableValue<? extends String> observable,String oldValue, String newValue) {txtPassword.setDisable(false);}
+        });
+        
+        txtPassword.textProperty().addListener(new ChangeListener<String>() {
+        @Override
+            public void changed(ObservableValue<? extends String> observable,String oldValue, String newValue) {btnLogin.setDisable(false);}
+        });
     }
 
 
     @FXML
-    public void btnLoginAction(){
+    public void btnLoginAction(ActionEvent e){
         if(txtPassword.getText().isEmpty()) return;
         if(txtUsername.getText().isEmpty()) return;
-        selectedUtente=utenteDAO.findUsername(txtUsername.getText());
-        if(selectedUtente==null) return;
+        utente=utenteDAO.findByUsername(txtUsername.getText());
+        if(utente==null) return;
 
         String pass_hash= MD5.dumpBytes(txtPassword.getText().getBytes());
         //If password is correct
-        if(selectedUtente.getPassword().equals(pass_hash)) {
-            //Store User in session singleton
-            Session.getInstance().setAppUtente(selectedUtente);
-            Session.getInstance().setSelectedBanca(selectedBanca);
-
-            if(selectedBanca!=null) Session.getInstance().getSelectedBanca().setAmministratore(selectedUtente);
-
-            if(selectedUtente.getRuolo().equals("Amministratore"))  Session.getInstance().openAsAmministratore();
-            if(selectedUtente.getRuolo().equals("Direttore"))       Session.getInstance().openAsDirettore();
-            if(selectedUtente.getRuolo().equals("Cassiere"))  {
-                Session.getInstance().setSelectedBanca(selectedUtente.getFiliale().getBanca());                
-                Session.getInstance().setSelectedFiliale(selectedUtente.getFiliale());
+        if(utente.getPassword().equals(pass_hash)) {
+            
+            utente=utenteDAO.findById(utente.getId()); //Caricamento completo di banca e filiale
+            //Init Session
+            Session.getInstance().setAppUtente(utente);            
+            
+            //Filtraggio ruolo
+            if(utente.getRuolo().equals("Amministratore"))  {
+                close(e);
+                Session.getInstance().getSelectedBanca().setAmministratore(utente);
+                Session.getInstance().openAsAmministratore();                
+            }            
+            else if(utente.getRuolo().equals("Direttore"))   {
+                close(e);                
+                Session.getInstance().setSelectedBanca(utente.getBanca());
+                Session.getInstance().openAsDirettore();
+            }
+            else if(utente.getRuolo().equals("Cassiere"))  {
+                close(e);
+                Session.getInstance().setSelectedBanca(utente.getBanca());
+                Session.getInstance().setSelectedFiliale(utente.getFiliale());                
                 Session.getInstance().openAsCassiere();
             }
-            if(selectedUtente.getRuolo().equals("Cliente")){         
-                Session.getInstance().setSelectedCliente(selectedUtente);
+            else if(utente.getRuolo().equals("Cliente")){         
+                close(e);
+                Session.getInstance().setSelectedCliente(utente);
+                Session.getInstance().setSelectedBanca(utente.getBanca());
+                Session.getInstance().setSelectedFiliale(utente.getFiliale());                  
                 Session.getInstance().openAsCliente();
             }
-            if(selectedUtente.getRuolo().equals(""))                return;
-
+            else if(utente.getRuolo().equals(""))                return;
+        }
+        else {
+            Session.getInstance().openErrorDialog("Errore credenziali", "Controlla le credenziali", "Le credenziali inserite non sono corrette");
         }
 
     }
@@ -123,6 +153,7 @@ public class Login {
         
         
     }
+    
     private void initBackgroundImage() {
         try {
             imgBackground.setImage(new Image(new FileInputStream("./images/background.jpeg")));
@@ -158,20 +189,13 @@ public class Login {
     }
 
     public void changeCmbBanca(ActionEvent e) {
-        selectedBanca=cmbBanca.getValue();
-        Session.getInstance().setSelectedBanca(selectedBanca);
-    }
-
-    public void changeUsername(ActionEvent e) {
-        System.out.println(txtUsername.getText());
-    }
-
-    public void changePassword(ActionEvent e) {
-        System.out.println(txtPassword.getText());
+        banca=cmbBanca.getValue();
+        Session.getInstance().setSelectedBanca(banca);
+        txtUsername.setDisable(false);
     }
 
     public void clickBackgroudImage(MouseEvent mouseEvent) {
-        System.out.println("Click immagine");
+        Session.getInstance().openRegistrazioneUtente();
     }
     
     public void showBankServices(MouseEvent mouseEvent) {
@@ -179,19 +203,20 @@ public class Login {
     }
     
 
-    //Al priumo avvio crea un amministratore con credenziali di default
+    //Al primo avvio crea un amministratore con credenziali di default
     private void checkIfFirstRun() {
        
+        //Inizializzazione Database
         /*
-        try {
-            String sql_schema = Files.readString(Paths.get("./schema.sql"), StandardCharsets.US_ASCII);
-            DbConnectionMysql.getInstance().execute(sql_schema);
-        } catch (IOException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        boolean b_database_create=DbConnectionMysql.getInstance().createDatabase("homebanking");
+        if(b_database_create){
+            boolean b_schema=DbConnectionMysql.getInstance().createTables("homebanking","./homebanking.sql");
+            if(!b_schema) Session.getInstance().openInfoDialog("Database error", "Errore di creazione del database", "Controlla i parametri nel file configuration.ini");
         }
-        */
+          */  
         
         
+        //Creazione utente di default admin
         int num_utenti = utenteDAO.getNumUtenti();
         if (num_utenti == 0) {
             //No users first run
@@ -209,8 +234,14 @@ public class Login {
             firstAdmin.setCodice_univoco("UUUUU");
             firstAdmin.setData_registrazione(new Date());
             utenteDAO.insert(firstAdmin);
+            
+            txtUsername.setDisable(false);
         }
     }
 
+    private void close(Event e) {        
+        Window loginWindow=((Node)(e.getSource())).getScene().getWindow();
+        loginWindow.hide();                
+    }
     
 }

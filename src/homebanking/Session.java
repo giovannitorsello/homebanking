@@ -1,8 +1,9 @@
 package homebanking;
 
-import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,24 +12,40 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import model.entities.*;
 
 public final class Session {
+    
+    
+    private Configuration config=new Configuration();
+    
     private Utente appUtente=new Utente();
+    private Utente selectedUtente=new Utente();
     private Banca selectedBanca=new Banca();
     private Filiale selectedFiliale=new Filiale();
     private Prodotto selectedProdotto=new Prodotto();
     private Servizio selectedServizio=new Servizio();
     private Operazione selectedOperazione=new Operazione();
     private Utente selectedCliente=new Utente();
+    private String requestParam="";
+    
+    //Store main window for logout
+    private Stage loginStage=null;
+    //store Application object
+    private Application application=null;
+    //store all opened stage
+    private ArrayList<Stage> openedStages=new ArrayList<Stage>();
     
     static private Session instance=null;
 
     public static Session getInstance() {
-        if(instance==null) instance=new Session();
+        if(instance==null) {
+            instance=new Session();            
+        }
         return instance;
     }
-    private Utente selectedUtente;
+    
 
     public Utente getAppUtente() {
         return appUtente;
@@ -86,7 +103,7 @@ public final class Session {
         return selectedUtente;
     }
 
-    public void openGraphicInterface(String windowsTitle, String fxmFile)
+    public Stage openGraphicInterface(String windowsTitle, String fxmFile)
     {
         try {
             ClassLoader cl = getClass().getClassLoader();
@@ -99,11 +116,33 @@ public final class Session {
             stage.setTitle(windowsTitle);
             stage.setScene(new Scene(root));
             stage.show();
+            openedStages.add(stage);            
+            return stage;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void openModalDialog(String windowsTitle, String fxmFile)
+    {
+        try {
+            ClassLoader cl = getClass().getClassLoader();
+            URL urlFile=cl.getResource(fxmFile);            
+            FXMLLoader fxmlLoader = new FXMLLoader(urlFile);
+            Parent root = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle(windowsTitle);
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    
     public void openAsAmministratore() {
         openGestioneGestioneBanche();
     }
@@ -208,5 +247,105 @@ public final class Session {
     public static void setInstance(Session aInstance) {
         instance = aInstance;
     }
+
+    /**
+     * @return the config
+     */
+    public Configuration getConfig() {
+        return config;
+    }
+
+    /**
+     * @param config the config to set
+     */
+    public void setConfig(Configuration config) {
+        this.config = config;
+    }
+
+    /**
+     * @return the requestParam
+     */
+    public String getRequestParam() {
+        return requestParam;
+    }
+
+    /**
+     * @param requestParam the requestParam to set
+     */
+    public void setRequestParam(String requestParam) {
+        this.requestParam = requestParam;
+    }
+        
+    /**
+     * @return the loginWindow
+     */
+    public Stage getLoginStage() {
+        return loginStage;
+    }
+
+    /**
+     * @param loginWindow the loginWindow to set
+     */
+    public void setLoginStage(Stage loginStage) {
+        this.loginStage = loginStage;
+    }
+    
+    /**
+     * @return the application
+     */
+    public Application getApplication() {
+        return application;
+    }
+
+    /**
+     * @param application the application to set
+     */
+    public void setApplication(Application application) {
+        this.application = application;
+    }
+    
+    /**
+     * @return the openedStages
+     */
+    public ArrayList<Stage> getOpenedStages() {
+        return openedStages;
+    }
+
+    /**
+     * @param openedStages the openedStages to set
+     */
+    public void setOpenedStages(ArrayList<Stage> openedStages) {
+        this.openedStages = openedStages;
+    }
+
+        
+    public void resetSession() {
+        Stage ls=getLoginStage();
+        Application app=getApplication();
+        
+        
+                
+        //close all stages and windows, display login
+        for(int i=0; i<openedStages.size(); i++) {
+            Stage stg=openedStages.get(i);
+            if(stg.getTitle().equals("Home Banking Login")) stg.show();                            
+            else                                            stg.close();
+        }
+        //Clear stages list
+        openedStages.clear();
+        
+        instance=new Session();
+        //save stage login and application object
+        instance.setLoginStage(ls);
+        instance.setApplication(app);
+        
+        //reload configuration
+        config=new Configuration();     
+        instance.setConfig(config);
+        //add to list login stage
+        instance.getOpenedStages().add(ls);        
+    }
+
+    
     
 }

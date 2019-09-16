@@ -24,6 +24,24 @@ public class FilialeDAO extends ObjectDAO {
                 ")";
         return super.insert(sql);
     }
+    
+    public boolean update(Filiale f) {
+       
+        String sql="UPDATE banca SET "+
+                "nome='"+f.getNome()+"',"+
+                "indirizzo='"+f.getIndirizzo()+"',"+
+                "orario_apertura='"+f.getOrarioApertura()+"',"+
+                "orario_chiusura='"+f.getOrarioChiusura()+"',"+
+                "banca_id='"+f.getBanca().getId()+"',"+
+                "direttore_id='"+f.getDirettore().getId()+"'"+
+                " WHERE id='"+f.getId()+"'";
+        
+        return super.update(sql);
+    }
+
+    public boolean delete(Filiale f){
+        return super.delete("filiale", f.getId());
+    }
 
     public Filiale findById(int id) {
         Filiale f=new Filiale();
@@ -40,10 +58,7 @@ public class FilialeDAO extends ObjectDAO {
     }
 
 
-    public boolean delete(Filiale f){
-        return super.delete("filiale", f.getId());
-    }
-
+    
     public ArrayList<Filiale> findByBanca(Banca selectedBanca) {
         ArrayList<Filiale> al=new ArrayList<Filiale>();
         String sql="SELECT * FROM filiale WHERE (banca_id='"+selectedBanca.getId()+"');";
@@ -70,26 +85,26 @@ public class FilialeDAO extends ObjectDAO {
     }
 
     public Filiale setFilialeFromResultSet(ResultSet rs) {
-        Filiale f=new Filiale();
-        try { 
+        Filiale f = new Filiale();
+        try {
             f.setId(rs.getInt("id"));
             f.setNome(rs.getString("nome"));
             f.setIndirizzo(rs.getString("indirizzo"));
             f.setOrarioApertura(rs.getString("orario_apertura"));
             f.setOrarioChiusura(rs.getString("orario_chiusura"));
             //Popolai membri della gerarchia
-            
-                //Trova la banca di appartenenza della filiale
-                int banca_id = rs.getInt("banca_id");
-                BancaDAO bdao=new BancaDAO();
-                Banca banca=bdao.findById(banca_id);
-                f.setBanca(banca);
 
-                //Trova il direttore della filiale
-                int utente_id=rs.getInt("direttore_id");
-                UtenteDAO udao=new UtenteDAO();
-                Utente utente=udao.findById(utente_id);
-                f.setDirettore(utente);
+            //Trova la banca di appartenenza della filiale
+            int banca_id = rs.getInt("banca_id");
+            BancaDAO bdao = new BancaDAO();
+            Banca banca = bdao.findById(banca_id);
+            f.setBanca(banca);
+
+            //Trova il direttore della filiale
+            int utente_id = rs.getInt("direttore_id");
+            UtenteDAO udao = new UtenteDAO();
+            Utente utente = udao.findById(utente_id);
+            f.setDirettore(utente);
 
         } catch (Exception e) {
             e.printStackTrace();

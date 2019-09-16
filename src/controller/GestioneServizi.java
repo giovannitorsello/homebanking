@@ -12,8 +12,8 @@ import model.dao.ServizioDAO;
 import model.entities.Servizio;
 import util.TimeUtil;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
+import javafx.scene.layout.AnchorPane;
 
 public class GestioneServizi {
 
@@ -22,7 +22,12 @@ public class GestioneServizi {
 
     private ObservableList<Servizio> tblData = FXCollections.observableArrayList();
 
-
+    @FXML 
+    private AnchorPane panel;
+    
+    @FXML
+    Button btnLogout;
+    
     @FXML
     private TextField txtDenominazione;
 
@@ -47,6 +52,9 @@ public class GestioneServizi {
 
     @FXML
     private Button btnInsert;
+    
+    @FXML
+    private Button btnUpdate;
 
     @FXML
     private Button btnDelete;
@@ -127,6 +135,20 @@ public class GestioneServizi {
         servizioDAO.insert(s);
         refreshTable();
     }
+    
+    public void update(ActionEvent actionEvent){
+        if (selectedServizio != null) {
+            selectedServizio.setDenominazione(txtDenominazione.getText());
+            selectedServizio.setData_attivazione(TimeUtil.convertLocalDateToDate(dtAttivazione.getValue()));
+            selectedServizio.setData_scadenza(TimeUtil.convertLocalDateToDate(dtScadenza.getValue()));
+            selectedServizio.setDescrizione(txtDescrizione.getText());
+            selectedServizio.setNumero_massimo_operazioni(Integer.valueOf(txtNumeroMassimoOperazioni.getText()).intValue());
+            selectedServizio.setProdotto(Session.getInstance().getSelectedProdotto());
+            selectedServizio.setTipologieOperazioneServizio(txtTipologieOperazioneServizio.getText());
+            servizioDAO.update(selectedServizio);
+        }
+        refreshTable();
+    }   
 
     public void delete(ActionEvent actionEvent){
         if(selectedServizio!=null) servizioDAO.delete(selectedServizio);
@@ -147,6 +169,8 @@ public class GestioneServizi {
         tblServizi.refresh();
     }
 
-   
+    public void logout(ActionEvent e) {
+       Session.getInstance().resetSession();
+    }
 
 }

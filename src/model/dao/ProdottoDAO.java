@@ -33,7 +33,7 @@ public class ProdottoDAO extends ObjectDAO {
         String str_data_attivazione=sdf.format(p.getData_attivazione());
         String str_data_scadenza=sdf.format(p.getData_scadenza());
         
-        String sql="UPDATE servizio SET "+
+        String sql="UPDATE prodotto SET "+
                 "denominazione='"+p.getDenominazione()+"',"+
                 "data_attivazione='"+str_data_attivazione+"',"+
                 "data_scadenza='"+str_data_scadenza+"',"+                
@@ -47,6 +47,10 @@ public class ProdottoDAO extends ObjectDAO {
         return super.update(sql);
     }
 
+    public boolean delete(Prodotto prodotto) {
+        return super.delete("prodotto", prodotto.getId());
+    }
+
     public Prodotto findById(int id) {
         Prodotto u=new Prodotto();
         ResultSet rs =super.findById("prodotto", id);
@@ -57,10 +61,6 @@ public class ProdottoDAO extends ObjectDAO {
             e.printStackTrace();
         }
         return u;
-    }
-
-    public boolean delete(Prodotto prodotto) {
-        return super.delete("prodotto", prodotto.getId());
     }
 
     public ArrayList<Prodotto> findAll() {

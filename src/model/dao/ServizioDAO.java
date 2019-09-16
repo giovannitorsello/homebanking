@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.entities.Banca;
 import model.entities.Prodotto;
 import model.entities.Servizio;
 
@@ -46,17 +47,21 @@ public class ServizioDAO extends ObjectDAO {
         
         return super.update(sql);
     }
+    
+    public boolean delete(Servizio servizio) {
+        return super.delete("servizio", servizio.getId());
+    }
 
     public Servizio findById(int id) {
-        Servizio u=new Servizio();
+        Servizio ser=new Servizio();
         ResultSet rs =super.findById("servizio", id);
         try {
             if(rs.next())
-                u=setServizioFromResultSet(rs);
+                ser=setServizioFromResultSet(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return u;
+        return ser;
     }
 
     public ArrayList<Servizio> findAll() {
@@ -91,10 +96,6 @@ public class ServizioDAO extends ObjectDAO {
         return s;
     }
 
-    public boolean delete(Servizio servizio) {
-        return super.delete("servizio", servizio.getId());
-    }
-
     public ArrayList<Servizio> findByProdotto(Prodotto selectedProdotto) {
         ArrayList<Servizio> al=new ArrayList<Servizio>();
         String sql="SELECT * FROM servizio WHERE (prodotto_id='"+selectedProdotto.getId()+"');";
@@ -118,5 +119,6 @@ public class ServizioDAO extends ObjectDAO {
     public ArrayList<Servizio> findByCliente() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
 }

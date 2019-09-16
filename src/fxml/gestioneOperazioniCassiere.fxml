@@ -8,8 +8,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="676.0" prefWidth="536.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneOperazioniCassiere">
+<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="676.0" prefWidth="786.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneOperazioniCassiere">
    <children>
+      <Button fx:id="btnLogout" layoutX="721.0" layoutY="3.0" mnemonicParsing="false" onAction="#logout" text="Logout"><font><Font name="System Italic" size="10.0" /></font></Button>
+          
       <Label layoutX="7.0" prefHeight="40.0" prefWidth="476.0" text="Gestione operazioni - area cassiere">
          <font>
             <Font name="System Italic" size="22.0" />
@@ -17,20 +19,23 @@
       </Label>
       <Button fx:id="btnDelete" layoutX="182.0" layoutY="261.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="78.0" text="Elimina" />
       <Button fx:id="btnConfirm" layoutX="11.0" layoutY="261.0" mnemonicParsing="false" onAction="#confirm" prefHeight="25.0" prefWidth="88.0" text="Conferma" />
-      <TableView fx:id="tblOperazioni" layoutX="7.0" layoutY="296.0" prefHeight="342.0" prefWidth="523.0">
+      <TableView fx:id="tblOperazioni" layoutX="7.0" layoutY="296.0" prefHeight="342.0" prefWidth="763.0">
          <columns>
-            <TableColumn prefWidth="153.0" text="tipologia">
+            <TableColumn prefWidth="91.0" text="tipologia">
                 <cellValueFactory><PropertyValueFactory property="tipologia" /></cellValueFactory>
           </TableColumn>
-            <TableColumn prefWidth="99.0" text="importo">
+            <TableColumn prefWidth="97.0" text="importo">
                 <cellValueFactory><PropertyValueFactory property="importo" /></cellValueFactory>
           </TableColumn>
-            <TableColumn prefWidth="125.0" text="data valuta">
+            <TableColumn prefWidth="116.0" text="data valuta">
                 <cellValueFactory><PropertyValueFactory property="data" /></cellValueFactory>
           </TableColumn>
-            <TableColumn prefWidth="145.0" text="stato">
+            <TableColumn prefWidth="88.0" text="stato">
                 <cellValueFactory><PropertyValueFactory property="stato" /></cellValueFactory>
           </TableColumn>
+            <TableColumn prefWidth="130.0" text="note">
+                <cellValueFactory><PropertyValueFactory property="note" /></cellValueFactory>
+           </TableColumn>
          </columns>
       </TableView>
       <Label fx:id="lblCassiere" layoutX="11.0" layoutY="647.0" text="Cassiere" />
@@ -42,7 +47,7 @@
       <ComboBox fx:id="cmbServizioCliente" disable="true" layoutX="116.0" layoutY="79.0" onAction="#changeCmbServizioCliente" prefHeight="25.0" prefWidth="378.0" />
       <Label layoutX="11.0" layoutY="84.0" text="Servizio" />
       <Label layoutX="11.0" layoutY="113.0" text="Tipologia" />
-      <ComboBox fx:id="cmbTipologiaOperazioneServizio" disable="true" layoutX="116.0" layoutY="108.0" onAction="#changeCmbTipologiaOperazioniServizio" prefHeight="25.0" prefWidth="378.0" />
+      <ComboBox fx:id="cmbTipologiaOperazioneServizio" disable="true" layoutX="116.0" layoutY="108.0" onAction="#changeCmbTipologiaOperazioneServizio" prefHeight="25.0" prefWidth="378.0" />
       <ComboBox fx:id="cmbStato" disable="true" layoutX="116.0" layoutY="136.0" onAction="#changeCmbStato" prefHeight="25.0" prefWidth="378.0" />
       <Label layoutX="11.0" layoutY="141.0" text="Stato" />
       <Label layoutX="11.0" layoutY="169.0" text="Periodo" />
@@ -50,8 +55,43 @@
       <Label layoutX="116.0" layoutY="202.0" text="Da" />
       <DatePicker fx:id="dtStart" layoutX="148.0" layoutY="197.0" onAction="#dtStartChange" prefHeight="25.0" prefWidth="150.0" />
       <Label layoutX="313.0" layoutY="202.0" text="a" />
-      <DatePicker fx:id="dtEnd" layoutX="338.0" layoutY="197.0" prefHeight="25.0" prefWidth="156.0" />
+      <DatePicker fx:id="dtEnd" layoutX="338.0" layoutY="197.0" onAction="#dtEndChange" prefHeight="25.0" prefWidth="156.0" />
       <Button fx:id="btnFindUpdate" layoutX="394.0" layoutY="261.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="130.0" text="Aggiorna ricerca" />
       <Button fx:id="btnPrint" layoutX="263.0" layoutY="261.0" mnemonicParsing="false" onAction="#print" prefHeight="25.0" prefWidth="130.0" text="Stampa in pdf" />
+      <Label fx:id="lblProdotto" layoutX="571.0" layoutY="53.0" text="Prodotto">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblInteresse" layoutX="681.0" layoutY="145.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="571.0" layoutY="145.0" text="Interesse">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="571.0" layoutY="122.0" text="Operazioni">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSaldoNettoInteressi" layoutX="681.0" layoutY="122.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSaldo" layoutX="681.0" layoutY="83.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="571.0" layoutY="83.0" text="Saldo">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

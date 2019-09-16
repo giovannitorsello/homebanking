@@ -12,28 +12,41 @@ import javafx.scene.input.MouseEvent;
 import model.dao.FilialeDAO;
 import model.entities.Filiale;
 import homebanking.Session;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.dao.GalleryDAO;
+import model.entities.Banca;
 import model.entities.Gallery;
 
 public class GestioneFiliali {
 
     //Modello
-    private Filiale selectedFiliale=null;
+    private Filiale filiale=null;
     private FilialeDAO filialeDAO=new FilialeDAO();
     
     private ArrayList<Gallery> fotoFiliale=new ArrayList<Gallery>();
 
     private ObservableList<Filiale> tblData = FXCollections.observableArrayList();
 
+    @FXML 
+    private AnchorPane panel;
 
     // Controlli Grafici
     @FXML
     ImageView imgFiliale;
+    
+    @FXML
+    Button btnLogout;
 
     @FXML
     private TextField txtNome;
@@ -51,11 +64,23 @@ public class GestioneFiliali {
     private Button btnInsert;
 
     @FXML
+    private Button btnUpdate;
+
+    @FXML
     private Button btnDelete;
 
     @FXML
     private Button btnInsertImage;
-
+    
+    @FXML
+    private Button btnInsertProdotto;
+    
+    @FXML
+    private Button btnInsertUtente;
+    
+    @FXML
+    private Button btnCassiere;
+    
     @FXML
     private Label lblBanca;
 
@@ -75,23 +100,25 @@ public class GestioneFiliali {
         initImgFiliale();
         initFilialeTable();
         lblUtente.setText(Session.getInstance().getAppUtente().getUsername());
-        lblBanca.setText(Session.getInstance().getSelectedBanca().getNome());
+        
+        Banca banca=Session.getInstance().getSelectedBanca();
+        if(banca!=null) lblBanca.setText(banca.getNome());
     }
 
     private void initFilialeTable() {
 
         tblFiliali.setItems(tblData);
-        tblFiliali.getFocusModel().focusedCellProperty().addListener(
-                new ChangeListener<TablePosition>() {
+        tblFiliali.getFocusModel().focusedCellProperty().addListener(new ChangeListener<TablePosition>() {
                     @Override
                     public void changed(ObservableValue<? extends TablePosition> observable,
                                         TablePosition oldPos, TablePosition pos) {
                         int row = pos.getRow();
                         int column = pos.getColumn();
                         if(row>=0 && row < tblData.size()) {
-                            selectedFiliale = (Filiale) tblFiliali.getItems().get(row);
-                            Session.getInstance().setSelectedFiliale(selectedFiliale);
+                            filiale = (Filiale) tblFiliali.getItems().get(row);
+                            Session.getInstance().setSelectedFiliale(filiale);
                             refreshFields();
+                            refreshStateButton();
                         }
                     }
                 });
@@ -101,26 +128,68 @@ public class GestioneFiliali {
     private void initImgFiliale() {
         //Loading image from URL
         try {
-            selectedFiliale=Session.getInstance().getSelectedFiliale();
-            if(selectedFiliale.getId()==-1) return;
+            filiale=Session.getInstance().getSelectedFiliale();
+            if(filiale.getId()==-1) return;
             GalleryDAO gdao=new GalleryDAO();
-            fotoFiliale=gdao.findByFiliale(selectedFiliale);        
+            fotoFiliale=gdao.findByFiliale(filiale);        
             Gallery g=new Gallery(); 
             if(fotoFiliale.size()>0)g=fotoFiliale.get(0); 
-            imgFiliale.setImage(new Image(g.getImage()));
+            InputStream img=g.getImage();
+            if(img!=null) imgFiliale.setImage(new Image(img));            
         }
         catch(Exception e) {e.printStackTrace();}
     }
 
     private void refreshFields() {
-        txtNome.setText(selectedFiliale.getNome());
-        txtIndirizzo.setText(selectedFiliale.getIndirizzo());
+        txtNome.setText(filiale.getNome());
+        txtIndirizzo.setText(filiale.getIndirizzo());
+        txtOrarioApertura.setText(filiale.getOrarioApertura());
+        txtOrarioChiusura.setText(filiale.getOrarioChiusura());
+        initImgFiliale();
+    }
+    
+    private void refreshStateButton() {
+        if(filiale.getId()>0) {
+            btnUpdate.setDisable(false);
+            btnDelete.setDisable(false);
+            btnInsertUtente.setDisable(false);
+            btnInsertImage.setDisable(false);
+            btnCassiere.setDisable(false);
+        }        
+        if(filiale.getId()==-1)
+        {
+            btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
+            btnInsertUtente.setDisable(true);
+            btnInsertImage.setDisable(true);            
+            btnCassiere.setDisable(true);
+        }
+    }
+    
+    public void insertProdotto(ActionEvent actionEvent) {
+        Session.getInstance().openGestioneProdotti();
+    }
+    
+    public void insertFiliale(ActionEvent actionEvent) {
+        Filiale f=new Filiale();
+        filiale=filialeFromForm();
+        filialeDAO.insert(filiale);
+        refreshTable();
+        refreshStateButton();
     }
 
+    public void updateFiliale(ActionEvent actionEvent) {
+        Filiale f=new Filiale();
+        filiale=filialeFromForm();
+        filialeDAO.update(filiale);
+        refreshTable();
+    }
 
     public void deleteFiliale(ActionEvent actionEvent) {
-        if(selectedFiliale!=null) filialeDAO.delete(selectedFiliale);
+        if(filiale!=null) filialeDAO.delete(filiale);
+        filiale=new Filiale(); //Carica filiale vuota
         refreshTable();
+        refreshStateButton();
     }
 
     private void refreshTable() {
@@ -128,13 +197,39 @@ public class GestioneFiliali {
         tblFiliali.refresh();
         ArrayList<Filiale> listaFiliali= filialeDAO.findByBanca(Session.getInstance().getSelectedBanca());
         tblData.clear();
-        tblData.addAll(listaFiliali);
+        if(listaFiliali.size()>0) tblData.addAll(listaFiliali);
         tblFiliali.refresh();
     }
 
-
     public void clickImgFilialeImage(MouseEvent mouseEvent) {
         System.out.println("Click immagine");
+    }
+
+    public void insertImage(ActionEvent actionEvent) {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog((Stage) panel.getScene().getWindow());        
+            FileInputStream image=new FileInputStream(selectedFile);
+            
+            Gallery g=new Gallery();
+            g.setData_inserimento(new Date());
+            g.setDescrizione(selectedFile.getName());
+            g.setBanca(filiale.getBanca());
+            g.setFiliale(filiale);
+            g.setImage(image);
+            
+            GalleryDAO gdao=new GalleryDAO();
+            if(gdao.insert(g)) {
+                Session.getInstance().openInfoDialog("Caricamento immagine", "Successo", "Immagine correttamente inserita");
+                initImgFiliale();
+            }
+            else
+                Session.getInstance().openInfoDialog("Caricamento immagine", "Fallito", "Immagine non inserita");
+                        
+        } catch (Exception ex) {
+            Logger.getLogger(GestioneBanche.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
 
@@ -142,20 +237,23 @@ public class GestioneFiliali {
         Session.getInstance().openAsCassiere();
     }
 
-    public void insertFiliale(ActionEvent actionEvent) {
+    
+    public void insertUtente(ActionEvent actionEvent) {
+        Session.getInstance().openGestioneAnagraficaUtenti();
+    }
+    
+    public void logout(ActionEvent e) {
+        Session.getInstance().resetSession();
+    }
+    
+    public Filiale filialeFromForm() {
         Filiale f=new Filiale();
         f.setDirettore(Session.getInstance().getAppUtente());
         f.setBanca(Session.getInstance().getSelectedBanca());
         f.setNome(txtNome.getText());
-        f.setIndirizzo(txtNome.getText());
+        f.setIndirizzo(txtIndirizzo.getText());
         f.setOrarioApertura(txtOrarioApertura.getText());
         f.setOrarioChiusura(txtOrarioChiusura.getText());
-
-        filialeDAO.insert(f);
-        refreshTable();
-    }
-
-    public void insertUtente(ActionEvent actionEvent) {
-        Session.getInstance().openGestioneAnagraficaUtenti();
+        return f;
     }
 }

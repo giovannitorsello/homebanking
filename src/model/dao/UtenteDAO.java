@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import model.entities.Banca;
 import model.entities.Utente;
 
 public class UtenteDAO extends ObjectDAO {
@@ -18,7 +19,7 @@ public class UtenteDAO extends ObjectDAO {
         String str_data_registrazione=sdf.format(u.getData_registrazione());
 
         String sql="INSERT INTO utente (data_registrazione, nome, cognome, indirizzo, email, username, password, ruolo," +
-                "codice_fiscale, partitaiva, pec, codice_univoco, filiale_id, data_nascita) VALUES ('"
+                "codice_fiscale, partitaiva, pec, codice_univoco, filiale_id, banca_id, data_nascita) VALUES ('"
                 +str_data_registrazione+"', '"
                 +u.getNome()+"', '"
                 +u.getCognome()+"', '"
@@ -32,6 +33,7 @@ public class UtenteDAO extends ObjectDAO {
                 +u.getPec()+"', '"
                 +u.getCodice_univoco()+"', '"
                 +u.getFiliale().getId()+"', '"
+                +u.getBanca().getId()+"', '"
                 +str_data_nascita+"')";
         return super.insert(sql);
     }
@@ -56,11 +58,13 @@ public class UtenteDAO extends ObjectDAO {
                 "pec='"+u.getPec()+"',"+
                 "codice_univoco='"+u.getCodice_univoco()+"',"+
                 "filiale_id='"+u.getFiliale().getId()+"',"+
+                "banca_id='"+u.getBanca().getId()+"',"+
                 "data_nascita='"+str_data_nascita+"'"+
                 " WHERE id='"+u.getId()+"'";
         
         return super.update(sql);
     }
+    
     public boolean delete(Utente u) {
         return super.delete("utente", u.getId());
     }
@@ -69,8 +73,7 @@ public class UtenteDAO extends ObjectDAO {
         Utente u=new Utente();
         ResultSet rs =super.findById("utente", id);
         try {
-            if(rs.next())
-                u=setUtenteFromResultSet(rs);
+            if(rs.next()) u=setUtenteFromResultSet(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,8 +85,7 @@ public class UtenteDAO extends ObjectDAO {
         String sql = "SELECT * FROM utente WHERE ("+ fieldname+"='"+fieldvalue+"');";
         ResultSet result = super.query(sql);
         try {
-            result.next();
-            return setUtenteFromResultSet(result);
+            if(result.next()) return setUtenteFromResultSet(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,14 +110,27 @@ public class UtenteDAO extends ObjectDAO {
             u.setCodice_univoco(result.getString("codice_univoco"));
             u.setData_nascita(result.getDate("data_nascita"));
 
+            //caricamento banca di appartenenza
+            try
+            {
+                BancaDAO bancaDAO=new BancaDAO();
+                int banca_id=result.getInt("banca_id");
+                Banca b=bancaDAO.findById(banca_id);
+                u.setBanca(b);                
+            }
+            catch(Exception e){e.printStackTrace();}
+            
+            //caricamento filiale di appartenenza
             try
             {
                 FilialeDAO filialeDAO=new FilialeDAO();
-                Filiale f=filialeDAO.findById(result.getInt("filiale_id"));
-                u.setFiliale(f);
+                int filiale_id=result.getInt("filiale_id");
+                Filiale f=filialeDAO.findById(filiale_id);
+                u.setFiliale(f);                
             }
             catch(Exception e){e.printStackTrace();}
 
+            
             return u;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,11 +140,15 @@ public class UtenteDAO extends ObjectDAO {
     }
 
 
+    public Utente findUtenteByCodiceFiscale(String codfis) {
+        return findUtenteByField("codice_fiscale", codfis);
+    }
+    
     public Utente findUtenteByEmail(String email) {
         return findUtenteByField("email", email);
     }
 
-    public Utente findUsername(String username) {
+    public Utente findByUsername(String username) {
         return findUtenteByField("username", username);
     }
 
@@ -163,7 +182,41 @@ public class UtenteDAO extends ObjectDAO {
     public int getNumUtenti() {
         return super.getNumRecords("utente");
     }
+    
+    public ArrayList<Utente> findDirettoreByBanca(Banca selectedBanca) {
+        ArrayList<Utente> al=new ArrayList<Utente>();
+        String sql="SELECT * FROM utente WHERE (banca_id='"+selectedBanca.getId()+"' AND ruolo='Direttore');";
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
 
+    public ArrayList<Utente> findDirettoreByFiliale(Filiale selectedFiliale) {
+        ArrayList<Utente> al=new ArrayList<Utente>();
+        String sql="SELECT * FROM utente WHERE (filiale_id='"+selectedFiliale.getId()+"' AND ruolo='Direttore');";
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
+    
+    public ArrayList<Utente> findClienteByFiliale(Filiale selectedFiliale) {
+        ArrayList<Utente> al=new ArrayList<Utente>();
+        String sql="SELECT * FROM utente WHERE (filiale_id='"+selectedFiliale.getId()+"' AND ruolo='Cliente');";
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
+
+    public ArrayList<Utente> findClienteByBanca(Banca selectedBanca) {
+        ArrayList<Utente> al=new ArrayList<Utente>();
+        String sql="SELECT * FROM utente WHERE (banca_id='"+selectedBanca.getId()+"' AND ruolo='Cliente');";
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
+    
+    public ArrayList<Utente> findCassiereByFiliale(Filiale selectedFiliale) {
+        ArrayList<Utente> al=new ArrayList<Utente>();
+        String sql="SELECT * FROM utente WHERE (filiale_id='"+selectedFiliale.getId()+"' AND ruolo='Cassiere');";
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
 
     public ArrayList<Utente> findByFiliale(Filiale selectedFiliale) {
         ArrayList<Filiale> al=new ArrayList<Filiale>();
@@ -185,6 +238,7 @@ public class UtenteDAO extends ObjectDAO {
         return al;
     }
 
+   
     
 
 }

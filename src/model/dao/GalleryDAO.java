@@ -31,7 +31,7 @@ public class GalleryDAO extends ObjectDAO {
             ps.setBlob(2,g.getImage());
             ps.setDate(3, new java.sql.Date((new Date()).getTime()));
             ps.setInt(4,g.getBanca().getId());
-            ps.setInt(5,g.getBanca().getId());
+            ps.setInt(5,g.getFiliale().getId());
             ps.execute();
             return true;
         } catch (Exception ex) {
@@ -49,13 +49,17 @@ public class GalleryDAO extends ObjectDAO {
             ps.setBlob(2,g.getImage());
             ps.setDate(3, new java.sql.Date((new Date()).getTime()));
             ps.setInt(4,g.getBanca().getId());
-            ps.setInt(5,g.getBanca().getId());
+            ps.setInt(5,g.getFiliale().getId());
             ps.execute();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(GalleryDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }                
+    }
+
+    public boolean delete(Gallery gallery) {
+        return super.delete("gallery", gallery.getId());
     }
     
     
@@ -68,10 +72,6 @@ public class GalleryDAO extends ObjectDAO {
             e.printStackTrace();
         }
         return gallery;
-    }
-
-    public boolean delete(Gallery gallery) {
-        return super.delete("gallery", gallery.getId());
     }
 
     public ArrayList<Gallery> findAll() {
@@ -88,7 +88,7 @@ public class GalleryDAO extends ObjectDAO {
     }
     
     public ArrayList<Gallery> findByFiliale(Filiale filiale) {
-        String sql="SELECT * FROM gallery WHERE (banca_id='"+filiale.getId()+"');";
+        String sql="SELECT * FROM gallery WHERE (filiale_id='"+filiale.getId()+"');";
         ResultSet rs=super.query(sql);
         return getArrayListFromResultSet(rs);
     }

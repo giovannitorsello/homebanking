@@ -12,6 +12,8 @@ import model.entities.Prodotto;
 import util.TimeUtil;
 import homebanking.Session;
 import java.util.ArrayList;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class GestioneProdotti {
 
@@ -20,6 +22,11 @@ public class GestioneProdotti {
 
     private ObservableList<Prodotto> tblData = FXCollections.observableArrayList();
 
+    @FXML 
+    private AnchorPane panel;
+    
+    @FXML
+    Button btnLogout;
 
     @FXML
     private TextField txtDenominazione;
@@ -146,6 +153,21 @@ public class GestioneProdotti {
         refreshTable();
     }
     
+    public void update(ActionEvent actionEvent) {
+        if (selectedProdotto != null) {
+            selectedProdotto.setDenominazione(txtDenominazione.getText());
+            selectedProdotto.setData_attivazione(TimeUtil.convertLocalDateToDate(dtAttivazione.getValue()));
+            selectedProdotto.setData_scadenza(TimeUtil.convertLocalDateToDate(dtScadenza.getValue()));
+            selectedProdotto.setDescrizione(txtDescrizione.getText());
+            selectedProdotto.setUrl_condizioni_generali(txtUrlCondizioni.getText());
+            selectedProdotto.setInteressi_passivi(Float.valueOf(txtInteressiPassivi.getText()));
+            selectedProdotto.setInteressi_attivi(Float.valueOf(txtInteressiAttivi.getText()));
+            selectedProdotto.setBanca(Session.getInstance().getSelectedBanca());
+            prodottoDAO.update(selectedProdotto);
+        }
+        refreshTable();
+    }
+    
     public void delete(ActionEvent actionEvent) {
         if(selectedProdotto!=null) prodottoDAO.delete(selectedProdotto);
         refreshTable();
@@ -158,5 +180,9 @@ public class GestioneProdotti {
     
     public void insertService(ActionEvent actionEvent) {
         Session.getInstance().openGestioneServizi();
+    }
+    
+    public void logout(ActionEvent e) {
+       Session.getInstance().resetSession();               
     }
 }

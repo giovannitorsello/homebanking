@@ -12,6 +12,7 @@ public class Operazione {
     private String stato="non_confermato"; //confermato, annullato
     private Date data_conferma_cassiere=new Date();
     private ServizioCliente servizioCliente;    
+    private String note;
     private Utente cliente;
     private Utente cassiere;
     private Filiale filiale;
@@ -136,5 +137,19 @@ public class Operazione {
      */
     public void setServizioCliente(ServizioCliente servizioCliente) {
         this.servizioCliente = servizioCliente;
+    }
+
+    /**
+     * @return the note
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * @param note the note to set
+     */
+    public void setNote(String note) {
+        this.note = note;
     }
 }

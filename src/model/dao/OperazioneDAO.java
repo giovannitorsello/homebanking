@@ -19,10 +19,11 @@ public class OperazioneDAO extends ObjectDAO {
         String str_data=sdf.format(op.getData());
         String str_data_conferma_cassiere=sdf.format(op.getData_conferma_cassiere());
         
-        String sql="INSERT INTO operazione (data, hash, importo, tipologia, stato, data_conferma_cassiere, servizio_id, cliente_id, filiale_id, cassiere_id) VALUES ("+
+        String sql="INSERT INTO operazione (data, hash, importo, note, tipologia, stato, data_conferma_cassiere, servizio_id, cliente_id, filiale_id, cassiere_id) VALUES ("+
                 "'"+str_data+"',"+
                 "'"+op.getHash()+"',"+
                 "'"+op.getImporto()+"',"+
+                "'"+op.getNote()+"',"+
                 "'"+op.getTipologia()+"',"+
                 "'"+op.getStato()+"',"+
                 "'"+str_data_conferma_cassiere+"',"+
@@ -41,7 +42,8 @@ public class OperazioneDAO extends ObjectDAO {
         String sql="UPDATE operazione SET "+
                 "data='"+str_data+"',"+
                 "hash='"+op.getHash()+"',"+
-                "importo='"+op.getImporto()+"',"+                
+                "importo='"+op.getImporto()+"',"+   
+                "note='"+op.getNote()+"',"+   
                 "tipologia='"+op.getTipologia()+"',"+
                 "stato='"+op.getStato()+"',"+
                 "data_conferma_cassiere='"+str_data_conferma_cassiere+"',"+
@@ -69,19 +71,20 @@ public class OperazioneDAO extends ObjectDAO {
         return op;
     }
    
+    
     public ArrayList<Operazione> findByClienteServizioStatoTipologiaPeriodo(Utente cli, ServizioCliente sercli, String tip, String sta, Date dtStart, Date dtEnd) {
         ArrayList<Operazione> al=new ArrayList<Operazione>();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         
         String sql="SELECT * FROM operazione WHERE (";
-        if(cli!=null && cli.getId()!=-1) sql+="cliente_id='"+cli.getId()+"'";
-        if(sercli!=null && sercli.getId()!=-1) sql+=" AND servizio_id='"+sercli.getId()+"'";
-        if(sta!=null)                    sql+=" AND stato='"+sta+"'";
-        if(tip!=null)                    sql+=" AND tipologia='"+tip+"'";
+        if(cli!=null && cli.getId()!=-1)                sql+="cliente_id='"+cli.getId()+"'";
+        if(sercli!=null && sercli.getId()!=-1)          sql+=" AND servizio_id='"+sercli.getId()+"'";
+        if(sta!=null && !sta.isEmpty())                 sql+=" AND stato='"+sta+"'";
+        if(tip!=null && !tip.isEmpty())                 sql+=" AND tipologia='"+tip+"'";
         if(dtStart!=null && dtEnd!=null)   {
             String strDateStart=sdf.format(dtStart);
             String strDateEnd=sdf.format(dtEnd);
-            sql+=" AND (data >='"+strDateStart+"' AND  data<='"+strDateEnd+"')";
+                                                        sql+=" AND (data >='"+strDateStart+"' AND  data<='"+strDateEnd+"')";
         }
         sql+=");";
         
@@ -92,6 +95,28 @@ public class OperazioneDAO extends ObjectDAO {
     public ArrayList<Operazione> findByCliente(Utente cliente) {
         ArrayList<Operazione> al=new ArrayList<Operazione>();
         String sql="SELECT * FROM operazione WHERE (cliente_id='"+cliente.getId()+"');";
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
+    
+    public ArrayList<Operazione> findByServizioCliente(ServizioCliente sercli) {
+        ArrayList<Operazione> al=new ArrayList<Operazione>();
+        String sql="SELECT * FROM operazione WHERE (servizio_id='"+sercli.getId()+"');";
+        ResultSet rs=super.query(sql);
+        return getArrayListFromResultSet(rs);
+    }
+    
+    public ArrayList<Operazione> findByServizioClientePeriodo(ServizioCliente sercli, Date dtStart, Date dtEnd) {
+        ArrayList<Operazione> al=new ArrayList<Operazione>();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String sql="SELECT * FROM operazione WHERE (servizio_id='"+sercli.getId()+"'";
+        if(dtStart!=null && dtEnd!=null)   {
+            String strDateStart=sdf.format(dtStart);
+            String strDateEnd=sdf.format(dtEnd);
+            sql+=" AND (data >='"+strDateStart+"' AND  data<='"+strDateEnd+"')";
+        }        
+        sql+=");";
+        
         ResultSet rs=super.query(sql);
         return getArrayListFromResultSet(rs);
     }
@@ -132,6 +157,7 @@ public class OperazioneDAO extends ObjectDAO {
                 op.setImporto(rs.getFloat("importo"));
                 op.setTipologia(rs.getString("tipologia"));
                 op.setStato(rs.getString("stato"));
+                op.setNote(rs.getString("note"));
                 op.setData_conferma_cassiere(rs.getDate("data_conferma_cassiere"));
                 
                 //determina il servizio cliente

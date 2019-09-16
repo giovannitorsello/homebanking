@@ -41,15 +41,19 @@ public class EmailSender {
     {
       Properties props = new Properties();
       props.put("mail.transport.protocol", "smtp");
-      props.put("mail.smtp.host", "smtp.gmail.com");
-      props.put("mail.smtp.socketFactory.port", "465");
-      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+      props.put("mail.smtp.host", homebanking.Session.getInstance().getConfig().getMail_server());
+      props.put("mail.smtp.socketFactory.port", homebanking.Session.getInstance().getConfig().getMail_port());
       props.put("mail.smtp.auth", "true");
-      props.put("mail.smtp.port", "465");
-      props.put("mail.smtp.host", Server);
+      props.put("mail.smtp.port", homebanking.Session.getInstance().getConfig().getMail_port());
       props.put("mail.debug", "true");
       props.put("mail.smtp.connectiontimeout", "3000");
       
+      String auth_type=homebanking.Session.getInstance().getConfig().getAuth_type();
+      if(auth_type.equals("ssl")) props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+      if(auth_type.equals("tls")) props.put("mail.smtp.starttls.enable", "true");
+      
+      User=homebanking.Session.getInstance().getConfig().getMail_login();
+      Password=homebanking.Session.getInstance().getConfig().getMail_password();
 
       Session session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
@@ -64,7 +68,7 @@ public class EmailSender {
       if (!To.isEmpty())        msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse(To, false));      
       if (!Cc.isEmpty())        msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(Cc, false));      
       if (!Subject.isEmpty())   msg.setSubject(Subject);      
-      if (!Subject.isEmpty())   msg.setText(Body);
+      if (!Body.isEmpty())      msg.setText(Body);
       
       if(!FileToAttach.isEmpty())
       {       

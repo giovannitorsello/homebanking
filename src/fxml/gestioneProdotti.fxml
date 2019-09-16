@@ -8,8 +8,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="536.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneProdotti">
+<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="536.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneProdotti">
    <children>
+      <Button fx:id="btnLogout" layoutX="483.0" layoutY="3.0" mnemonicParsing="false" onAction="#logout" text="Logout"><font><Font name="System Italic" size="10.0" /></font></Button>
+      
       <Label layoutX="21.0" layoutY="14.0" prefHeight="40.0" prefWidth="255.0" text="Catalogo prodotti">
          <font>
             <Font name="System Italic" size="22.0" />
@@ -55,10 +57,10 @@
       </Label>
       <TextField fx:id="txtInteressiPassivi" layoutX="175.0" layoutY="196.0" prefHeight="25.0" prefWidth="174.0" />
       <TextField fx:id="txtInteressiAttivi" layoutX="175.0" layoutY="223.0" prefHeight="25.0" prefWidth="174.0" />
-      <Button fx:id="btnInsert" layoutX="397.0" layoutY="91.0" mnemonicParsing="false" onAction="#insert" prefHeight="25.0" prefWidth="105.0" text="Inserisci" />
+      <Button fx:id="btnInsert" layoutX="397.0" layoutY="87.0" mnemonicParsing="false" onAction="#insert" prefHeight="25.0" prefWidth="105.0" text="Inserisci" />
       <DatePicker fx:id="dtAttivazione" layoutX="175.0" layoutY="88.0" />
       <DatePicker fx:id="dtScadenza" layoutX="175.0" layoutY="115.0" />
-      <Button fx:id="btnDelete" disable="true" layoutX="397.0" layoutY="123.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="105.0" text="Elimina" />
+      <Button fx:id="btnDelete" disable="true" layoutX="397.0" layoutY="141.0" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="105.0" text="Elimina" />
       <Button fx:id="btnFind" layoutX="397.0" layoutY="60.0" mnemonicParsing="false" onAction="#find" prefHeight="25.0" prefWidth="105.0" text="Ricerca" />
       <TableView fx:id="tblProdotti" layoutX="13.0" layoutY="258.0" prefHeight="200.0" prefWidth="494.0">
         <columns>
@@ -85,6 +87,7 @@
       <Button fx:id="btnInsertService" disable="true" layoutX="397.0" layoutY="169.0" mnemonicParsing="false" onAction="#insertService" prefHeight="51.0" prefWidth="105.0" text="Insersci servizio" />
       <Label fx:id="lblBanca" layoutX="14.0" layoutY="470.0" text="Banca" />
       <Label fx:id="lblFiliale" layoutX="201.0" layoutY="470.0" text="Filiale" />
-      <Label fx:id="lblUtente" layoutX="349.0" layoutY="14.0" text="Utente" />
+      <Label fx:id="lblUtente" layoutX="353.0" layoutY="470.0" text="Utente" />
+      <Button fx:id="btnUpdate" layoutX="398.0" layoutY="114.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="105.0" text="Aggiorna" />
    </children>
 </AnchorPane>

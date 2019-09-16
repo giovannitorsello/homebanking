@@ -20,6 +20,7 @@ public class Utente {
     private String codice_univoco="";
     private Date data_nascita=new Date();
     private Filiale filiale=new Filiale();
+    private Banca banca=new Banca();
 
     public Filiale getFiliale() {
         return filiale;
@@ -143,5 +144,19 @@ public class Utente {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * @return the banca
+     */
+    public Banca getBanca() {
+        return banca;
+    }
+
+    /**
+     * @param banca the banca to set
+     */
+    public void setBanca(Banca banca) {
+        this.banca = banca;
     }
 }

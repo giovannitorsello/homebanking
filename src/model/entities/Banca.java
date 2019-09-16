@@ -5,8 +5,9 @@ public class Banca {
     private int id=-1;
     private String nome="";
     private String indirizzo="";
-    private Utente amministratore=new Utente();
-    private Utente direttore=new Utente();
+    private String descrizione="";
+    private Utente amministratore=null;
+    private Utente direttore=null;
 
     public Utente getAmministratore() {
         return amministratore;
@@ -51,6 +52,20 @@ public class Banca {
 
     public void setDirettore(Utente direttore) {
         this.direttore = direttore;
+    }
+
+    /**
+     * @return the descrizione
+     */
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    /**
+     * @param descrizione the descrizione to set
+     */
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
 

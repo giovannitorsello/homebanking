@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.image.*?>
@@ -11,18 +12,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="723.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneBanche">
+<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="534.0" prefWidth="723.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneBanche">
    <children>
-      <Button fx:id="btnInsert" layoutX="122.0" layoutY="109.0" mnemonicParsing="false" onAction="#bntInsertBanca" prefHeight="25.0" prefWidth="102.0" text="Salva Banca" />
-       <Button fx:id="btnDelete" layoutX="227.0" layoutY="109.0" mnemonicParsing="false" onAction="#bntDeleteBanca" prefHeight="25.0" prefWidth="119.0" text="Elimina Banca" />
-       <ImageView fx:id="imgBanca" fitHeight="204.0" fitWidth="223.0" layoutX="495.0" layoutY="109.0" onMouseClicked="#clickImgBancaImage" pickOnBounds="true" preserveRatio="true">
+       <Button fx:id="btnLogout" layoutX="653.0" layoutY="11.0" mnemonicParsing="false" onAction="#logout" text="Logout"><font><Font name="System Italic" size="10.0" /></font></Button>
+      
+       <Button fx:id="btnInsert" layoutX="122.0" layoutY="132.0" mnemonicParsing="false" onAction="#insertBanca" prefHeight="25.0" prefWidth="102.0" text="Salva" />
+       <Button fx:id="btnDelete" layoutX="351.0" layoutY="132.0" mnemonicParsing="false" onAction="#deleteBanca" prefHeight="25.0" prefWidth="119.0" text="Elimina" />
+      <Label layoutX="12.0" layoutY="46.0" text="Denominazione" />
+      <Label layoutX="15.0" layoutY="104.0" text="Descrizione" />
+      <TextField fx:id="txtDenominazione" layoutX="121.0" layoutY="42.0" prefHeight="25.0" prefWidth="585.0" />
+      <Button fx:id="btnInsertImage" disable="true" layoutX="495.0" layoutY="465.0" mnemonicParsing="false" onAction="#insertImage" prefHeight="27.0" prefWidth="223.0" text="Carica Foto" />
+      <TextField fx:id="txtIndirizzo" layoutX="121.0" layoutY="71.0" prefHeight="25.0" prefWidth="585.0" />
+      <Label layoutX="14.0" layoutY="74.0" text="Indirizzo" />
+      <TextField fx:id="txtDescrizione" layoutX="121.0" layoutY="100.0" prefHeight="25.0" prefWidth="585.0" />
+      <Rectangle arcHeight="10.0" arcWidth="5.0" fill="TRANSPARENT" height="200.0" layoutX="500.0" layoutY="190.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="200.0" />
+       <ImageView fx:id="imgBanca" fitHeight="200.0" fitWidth="200.0" layoutX="500.0" layoutY="190.0" onMouseClicked="#clickImgBancaImage" pickOnBounds="true" preserveRatio="true">
       </ImageView>
-      <Label layoutX="12.0" layoutY="53.0" text="Denominazione" />
-      <TextField fx:id="txtDenominazione" layoutX="121.0" layoutY="49.0" prefHeight="25.0" prefWidth="585.0" />
-      <Button fx:id="btnInsertImage" layoutX="495.0" layoutY="355.0" mnemonicParsing="false" onAction="#insertImage" prefHeight="25.0" prefWidth="223.0" text="Carica Foto" />
-      <TextField fx:id="txtIndirizzo" layoutX="121.0" layoutY="80.0" prefHeight="25.0" prefWidth="585.0" />
-      <Label layoutX="14.0" layoutY="81.0" text="Indirizzo" />
-      <TableView fx:id="tblBanche" layoutX="12.0" layoutY="192.0" prefHeight="250.0" prefWidth="478.0">
+      <TableView fx:id="tblBanche" layoutX="12.0" layoutY="202.0" prefHeight="250.0" prefWidth="475.0">
         <columns>
           <TableColumn prefWidth="99.0" text="Denominazione">
             <cellValueFactory><PropertyValueFactory property="nome" /></cellValueFactory>
@@ -30,8 +36,13 @@
           <TableColumn prefWidth="97.0" text="Indirizzo">
               <cellValueFactory><PropertyValueFactory property="indirizzo" /></cellValueFactory>
           </TableColumn>
-            <TableColumn prefWidth="266.0" text="Codice Banca">
+            <TableColumn prefWidth="104.0" text="Codice Banca">
                 <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="159.0" text="Descrizione">
+               <cellValueFactory>
+                  <PropertyValueFactory property="descrizione" />
+               </cellValueFactory>
             </TableColumn>            
         </columns>
       </TableView>
@@ -41,12 +52,14 @@
             <Font name="System Italic" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="lblUtente" layoutX="14.0" layoutY="458.0" prefHeight="15.0" prefWidth="98.0" text="Utente" />
-      <Label fx:id="lblOrario" layoutX="654.0" layoutY="14.0" prefHeight="15.0" prefWidth="98.0" text="Orario" />
-      <Button fx:id="btnInsertFiliale" layoutX="349.0" layoutY="109.0" mnemonicParsing="false" onAction="#insertFiliale" prefHeight="25.0" prefWidth="141.0" text="Gestione Filiali" />
-      <Button fx:id="btnAsDirettore" layoutX="121.0" layoutY="148.0" mnemonicParsing="false" onAction="#asDirettore" prefHeight="25.0" prefWidth="102.0" text="Direttore" />
-      <Button fx:id="btnAsCassiere" layoutX="227.0" layoutY="148.0" mnemonicParsing="false" onAction="#asCassiere" prefHeight="25.0" prefWidth="119.0" text="Cassiere" />
-      <Label layoutX="14.0" layoutY="154.0" text="Accedi come" />
-      <Button fx:id="btnInsertProdotto" layoutX="349.0" layoutY="148.0" mnemonicParsing="false" onAction="#insertProdotto" prefHeight="25.0" prefWidth="141.0" text="Gestione Prodotti" />
+      <Label fx:id="lblUtente" layoutX="14.0" layoutY="504.0" prefHeight="15.0" prefWidth="98.0" text="Utente" />
+      <Label fx:id="lblOrario" layoutX="604.0" layoutY="508.0" prefHeight="15.0" prefWidth="98.0" text="Orario" />
+      <Button fx:id="btnInsertFiliale" disable="true" layoutX="12.0" layoutY="467.0" mnemonicParsing="false" onAction="#insertFiliale" prefHeight="25.0" prefWidth="141.0" text="Gestione Filiali" />
+      <Button fx:id="btnAsDirettore" disable="true" layoutX="121.0" layoutY="171.0" mnemonicParsing="false" onAction="#asDirettore" prefHeight="25.0" prefWidth="166.0" text="Direttore/Cassiere" />
+      <Label layoutX="14.0" layoutY="177.0" text="Accedi come" />
+      <Button fx:id="btnInsertProdotto" disable="true" layoutX="181.0" layoutY="467.0" mnemonicParsing="false" onAction="#insertProdotto" prefHeight="25.0" prefWidth="141.0" text="Gestione Prodotti" />
+      <Button fx:id="btnInsertUtente" disable="true" layoutX="339.0" layoutY="466.0" mnemonicParsing="false" onAction="#insertUtente" prefHeight="27.0" prefWidth="149.0" text="Gestione Utenti" />
+      <Button fx:id="btnDelete1" layoutX="228.0" layoutY="131.0" mnemonicParsing="false" onAction="#updateBanca" prefHeight="25.0" prefWidth="119.0" text="Aggiorna" />
+      
    </children>
 </AnchorPane>

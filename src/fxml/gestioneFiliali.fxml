@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -10,16 +12,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="775.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneFiliali">
+<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="707.0" style="-fx-background-color: ffd879;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestioneFiliali">
    <children>
-      <Button fx:id="btnInsert" layoutX="14.0" layoutY="108.0" mnemonicParsing="false" onAction="#insertFiliale" prefHeight="25.0" prefWidth="149.0" text="Salva" />
-      <ImageView fx:id="imgFiliale" fitHeight="101.0" fitWidth="119.0" layoutX="611.0" layoutY="75.0" onMouseClicked="#clickImgFilialeImage" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnLogout" layoutX="601.0" layoutY="3.0" mnemonicParsing="false" onAction="#logout" text="Logout"><font><Font name="System Italic" size="10.0" /></font></Button>
+          
+      <Button fx:id="btnInsert" layoutX="11.0" layoutY="108.0" mnemonicParsing="false" onAction="#insertFiliale" prefHeight="25.0" prefWidth="119.0" text="Salva" />
       <Label layoutX="11.0" layoutY="47.0" text="Nome" />
       <TextField fx:id="txtNome" layoutX="89.0" layoutY="42.0" prefHeight="25.0" prefWidth="235.0" />
-      <Button fx:id="btnInsertImage" layoutX="335.0" layoutY="108.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="157.0" text="Carica Foto" />
+      <Button fx:id="btnInsertImage" disable="true" layoutX="496.0" layoutY="191.0" mnemonicParsing="false" onAction="#insertImage" prefHeight="25.0" prefWidth="141.0" text="Carica Foto" />
       <TextField fx:id="txtIndirizzo" layoutX="89.0" layoutY="70.0" prefHeight="25.0" prefWidth="235.0" />
       <Label layoutX="14.0" layoutY="75.0" text="Indirizzo" />
-      <TableView fx:id="tblFiliali" layoutX="11.0" layoutY="192.0" prefHeight="284.0" prefWidth="754.0">
+      <Rectangle arcHeight="10.0" arcWidth="5.0" fill="TRANSPARENT" height="150.0" layoutX="491.0" layoutY="33.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="150.0" />
+      <ImageView fx:id="imgFiliale" fitHeight="150.0" fitWidth="150.0" layoutX="491.0" layoutY="33.0" onMouseClicked="#clickImgFilialeImage" pickOnBounds="true" preserveRatio="true" />
+      <TableView fx:id="tblFiliali" layoutX="11.0" layoutY="234.0" prefHeight="242.0" prefWidth="676.0">
         <columns>
           <TableColumn prefWidth="135.0" text="Denominazione">
               <cellValueFactory><PropertyValueFactory property="nome" /></cellValueFactory>
@@ -33,13 +38,13 @@
             <TableColumn prefWidth="132.0" text="Orario Apertura">
                 <cellValueFactory><PropertyValueFactory property="orarioApertura" /></cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="165.0" text="Orario Chiusura">
+            <TableColumn prefWidth="138.0" text="Orario Chiusura">
                 <cellValueFactory><PropertyValueFactory property="orarioChiusura" /></cellValueFactory>
             </TableColumn>
         </columns>
       </TableView>
-      <Button fx:id="btnDelete" layoutX="177.0" layoutY="108.0" mnemonicParsing="false" onAction="#deleteFiliale" prefHeight="25.0" prefWidth="149.0" text="Elimina" />
-      <Label layoutX="14.0" layoutY="6.0" text="Gestione Filiali - area Amministratore">
+      <Button fx:id="btnDelete" disable="true" layoutX="292.0" layoutY="108.0" mnemonicParsing="false" onAction="#deleteFiliale" prefHeight="25.0" prefWidth="149.0" text="Elimina" />
+      <Label layoutX="14.0" layoutY="6.0" text="Gestione Filiali - area Direttore">
          <font>
             <Font name="System Italic" size="25.0" />
          </font>
@@ -51,11 +56,12 @@
       </Label>
       <Label layoutX="336.0" layoutY="75.0" text="Chiusura" />
       <Label layoutX="336.0" layoutY="47.0" text="Apertura" />
-      <TextField fx:id="txtOrarioApertura" layoutX="410.0" layoutY="42.0" prefHeight="25.0" prefWidth="82.0" />
-      <TextField fx:id="txtOrarioChiusura" layoutX="410.0" layoutY="70.0" prefHeight="25.0" prefWidth="82.0" />
-      <Label layoutX="515.0" layoutY="41.0" text="Accedi come" />
-      <Button fx:id="btnCassiere" layoutX="611.0" layoutY="36.0" mnemonicParsing="false" onAction="#asCassiere" prefHeight="25.0" prefWidth="119.0" text="Cassiere" />
-      <Button fx:id="btnInsertUtente" layoutX="14.0" layoutY="147.0" mnemonicParsing="false" onAction="#insertUtente" prefHeight="27.0" prefWidth="149.0" text="Inserisci Utente" />
-      <Label fx:id="lblUtente" layoutX="515.0" layoutY="14.0" text="Utente" />
+      <TextField fx:id="txtOrarioApertura" layoutX="410.0" layoutY="42.0" prefHeight="25.0" prefWidth="58.0" text="09:00" />
+      <TextField fx:id="txtOrarioChiusura" layoutX="410.0" layoutY="70.0" prefHeight="25.0" prefWidth="58.0" text="15:00" />
+      <Button fx:id="btnCassiere" disable="true" layoutX="10.0" layoutY="152.0" mnemonicParsing="false" onAction="#asCassiere" prefHeight="25.0" prefWidth="119.0" text="Area Cassiere" />
+      <Button fx:id="btnInsertUtente" disable="true" layoutX="138.0" layoutY="152.0" mnemonicParsing="false" onAction="#insertUtente" prefHeight="25.0" prefWidth="149.0" text="Gestione Utenti" />
+      <Label fx:id="lblUtente" layoutX="524.0" layoutY="486.0" text="Utente" />
+      <Button fx:id="btnUpdate" disable="true" layoutX="138.0" layoutY="108.0" mnemonicParsing="false" onAction="#updateFiliale" prefHeight="25.0" prefWidth="149.0" text="Aggiorna" />
+      <Button fx:id="btnInsertProdotto" layoutX="296.0" layoutY="152.0" mnemonicParsing="false" onAction="#insertProdotto" prefHeight="25.0" prefWidth="141.0" text="Gestione Prodotti" />
    </children>
 </AnchorPane>

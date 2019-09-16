@@ -3,16 +3,23 @@ package model.entities;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ServizioCliente {
+public class ProdottoCliente {
 
     private int id=-1;
     private float saldo=0;
     private String stato="non_confermato"; //attivo, disattivo, non_confermato
     private Date data_attivazione=new Date();
-    private Servizio servizio=new Servizio();   
+    private Prodotto prodotto=new Prodotto();   
     private Utente cliente=new Utente();
     
-    public ServizioCliente() {
+    
+    
+    
+  
+  
+    
+    
+    public ProdottoCliente() {
 
     }
 
@@ -43,15 +50,15 @@ public class ServizioCliente {
     /**
      * @return the servizio
      */
-    public Servizio getServizio() {
-        return servizio;
+    public Prodotto getProdotto() {
+        return prodotto;
     }
 
     /**
      * @param servizio the servizio to set
      */
-    public void setServizio(Servizio servizio) {
-        this.servizio = servizio;
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
     }
 
     /**

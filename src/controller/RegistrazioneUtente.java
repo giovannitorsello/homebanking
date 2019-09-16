@@ -19,9 +19,13 @@ import java.util.Date;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import model.dao.ProdottoClienteDAO;
 import model.dao.ServizioClienteDAO;
 import model.dao.ServizioDAO;
 import model.entities.Prodotto;
+import model.entities.ProdottoCliente;
 import model.entities.Servizio;
 import model.entities.ServizioCliente;
 import util.*;
@@ -34,6 +38,7 @@ public class RegistrazioneUtente {
     private Prodotto selectedProdotto = new Prodotto();
     private Servizio selectedServizio = new Servizio();
     private ServizioCliente selectedServizioCliente = new ServizioCliente();
+    private ProdottoCliente selectedProdottoCliente = new ProdottoCliente();
     
     private BancaDAO bancaDAO=new BancaDAO();
     private FilialeDAO filialeDAO=new FilialeDAO();
@@ -41,11 +46,15 @@ public class RegistrazioneUtente {
     private ProdottoDAO prodottoDAO=new ProdottoDAO();
     private ServizioDAO servizioDAO=new ServizioDAO();
     private ServizioClienteDAO servizioClienteDAO=new ServizioClienteDAO();
+    private ProdottoClienteDAO prodottoClienteDAO=new ProdottoClienteDAO();
     
     
     private ObservableList<Prodotto> tblDataProdotti = FXCollections.observableArrayList();
     private ObservableList<Servizio> tblDataServizi = FXCollections.observableArrayList();
 
+    @FXML 
+    private AnchorPane panel;
+    
     @FXML
     private TextField txtNome;
 
@@ -119,17 +128,53 @@ public class RegistrazioneUtente {
         // durante il processo di conferma
         cliente.setRuolo("Non_registrato");
         
-        utenteDAO.insert(cliente); 
-        cliente=utenteDAO.findUsername(cliente.getUsername());
+        //prova a verificare l'esistenza dell'utenza con l'email        
+        Utente cliente_temp=utenteDAO.findUtenteByEmail(txtEmail.getText());
+        //prova a verificare l'esistenza dell'utenza con il codice fiscale
+        if(cliente_temp==null || cliente_temp.getId()==-1) cliente_temp=utenteDAO.findUtenteByCodiceFiscale(txtCodiceFiscale.getText());
         
-        //Inserimento servizi in stato non registrato
-        selectedServizioCliente.setServizio(selectedServizio);
-        selectedServizioCliente.setCliente(cliente);
-        servizioClienteDAO.insert(selectedServizioCliente);
+        //Utenza non trovata si procede all'inserimento
+        if((cliente_temp==null || cliente_temp.getId()==-1) && utenteDAO.insert(cliente)){ 
+            cliente=utenteDAO.findByUsername(cliente.getUsername());
         
-        sendEmailCliente(cliente, clearPass);
-        sendEmailAmministratore(cliente, selectedBanca.getAmministratore());
+            //Inserimento prodotto cliente per saldo globale
+            selectedProdottoCliente.setCliente(cliente);
+            selectedProdottoCliente.setProdotto(selectedServizio.getProdotto());
+            selectedProdottoCliente.setData_attivazione(new Date());
+            selectedProdottoCliente.setStato("non confermato");
+            
+            
+            //Inserimento servizi in stato non registrato
+            selectedServizioCliente.setData_attivazione(new Date());
+            selectedServizioCliente.setServizio(selectedServizio);
+            selectedServizioCliente.setCliente(cliente);
+            selectedServizioCliente.setStato("non confermato");
+            
+            if(prodottoClienteDAO.insert(selectedProdottoCliente) && servizioClienteDAO.insert(selectedServizioCliente)) {        
+                sendEmailCliente(cliente, clearPass);
+                sendEmailAmministratore(cliente, selectedBanca.getAmministratore());
+                logout(actionEvent);
+            }
+            else
+                Session.getInstance().openInfoDialog("Errore di inserimento", "Errore inserimento", "Controllare i dati inseriti");
+        }
+        
+        //Utente già registrato ma manca il servizio associato, si procede all'inserimento del solo servizio
+        if(cliente_temp!=null && cliente_temp.getId()!=-1) {
+            //Inserimento servizi in stato non registrato
+            selectedServizioCliente.setData_attivazione(new Date());
+            selectedServizioCliente.setServizio(selectedServizio);
+            selectedServizioCliente.setCliente(cliente);
+            if(servizioClienteDAO.insert(selectedServizioCliente)) {        
+                sendEmailCliente(cliente, clearPass);
+                sendEmailAmministratore(cliente, selectedBanca.getAmministratore());
+                logout(actionEvent);
+            }
+            else
+                Session.getInstance().openInfoDialog("Errore di inserimento", "Errore inserimento", "Controllare i dati inseriti");
 
+        }
+        
     }
     
     private void sendEmailCliente(Utente cliente, String strClearPass) {
@@ -284,5 +329,8 @@ public class RegistrazioneUtente {
         btnInsert.setDisable(false);
     }
 
+    public void logout(ActionEvent e) {
+        Session.getInstance().resetSession();           
+    }
 
 }
